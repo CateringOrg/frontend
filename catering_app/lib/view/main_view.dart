@@ -18,23 +18,23 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     return Center(
         child: FractionallySizedBox(
-            widthFactor: 0.5,
+            widthFactor: 0.4,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text('Witaj w systemie', style: AppTextThemes.headline),
-                const SizedBox(height: 30),
+                const SizedBox(height: 200),
                 Row(
                   children: <Widget>[
                     Expanded(
                       child: SizedBox(
-                        height: 40,
+                        height: 60,
                         child: ElevatedButton(
                           onPressed: () {
                             widget.controller
                                 .onCateringSupplierRegistrationClicked();
                           },
-                          child: const Text('Catering Supplier Registration'),
+                          child: const Text('Zarejestruj firme cateringowa'),
                         ),
                       ),
                     )
@@ -44,12 +44,12 @@ class _MainViewState extends State<MainView> {
                 Row(children: <Widget>[
                   Expanded(
                       child: SizedBox(
-                    height: 40,
+                    height: 60,
                     child: ElevatedButton(
                       onPressed: () {
                         widget.controller.onLoginClicked();
                       },
-                      child: const Text('Login'),
+                      child: const Text('Zaloguj'),
                     ),
                   ))
                 ])

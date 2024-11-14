@@ -174,7 +174,7 @@ class AppWidgetsThemes {
     foregroundColor: MaterialStateProperty.all<Color>(AppColor.primary),
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(30.0), // TODO replace with const
+      borderRadius: BorderRadius.circular(10.0), // TODO replace with const
     )),
     textStyle: MaterialStateProperty.all<TextStyle>(AppTextThemes.button),
   );
