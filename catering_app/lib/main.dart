@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:catering_app/view/main_view.dart';
-
 import 'package:catering_app/controller/main_controller.dart';
-
+import 'package:catering_app/controller/catering_registration_controller.dart';
 import 'package:catering_app/assets/themes.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => MainController()),
+        ChangeNotifierProvider(create: (_) => CateringRegistrationController()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  final MainController mainController = const MainController();
-
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
       title: 'Catering app',
       theme: AppThemes.light,
       darkTheme: AppThemes.light,
-      home: MainView(controller: mainController),
+      home: const MainView(),
     );
   }
 }

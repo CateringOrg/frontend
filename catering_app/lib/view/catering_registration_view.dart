@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-
-import 'package:catering_app/assets/themes.dart';
+import 'package:provider/provider.dart';
 
 import 'package:catering_app/controller/catering_registration_controller.dart';
 
-class CateringRegistartionView extends StatefulWidget {
-  final CateringRegistrationController controller;
-
-  const CateringRegistartionView({super.key, required this.controller});
+class CateringRegistrationView extends StatefulWidget {
+  const CateringRegistrationView({super.key});
 
   @override
-  State<CateringRegistartionView> createState() =>
-      _CateringRegistartionViewState();
+  State<CateringRegistrationView> createState() => _CateringRegistrationViewState();
 }
 
-class _CateringRegistartionViewState extends State<CateringRegistartionView> {
+class _CateringRegistrationViewState extends State<CateringRegistrationView> {
   final nameTextController = TextEditingController();
   final addressTextController = TextEditingController();
 
@@ -27,85 +23,97 @@ class _CateringRegistartionViewState extends State<CateringRegistartionView> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        child: Center(
-            child: FractionallySizedBox(
-                widthFactor: 0.6,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text('Zarejestruj firme kateringowa',
-                        style: AppTextThemes.headline),
-                    const SizedBox(height: 200),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                              const Text("Nazwa"),
-                              TextField(
-                                controller: nameTextController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: 'Firma 123',
-                                ),
-                              ),
-                            ]))
-                      ],
+    final controller = Provider.of<CateringRegistrationController>(context, listen: false);
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      body: Center(
+        child: FractionallySizedBox(
+          widthFactor: 0.6,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const Text(
+                'Zarejestruj firmę kateringową',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 30),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text("Nazwa"),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: nameTextController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Firma 123',
                     ),
-                    const SizedBox(height: 30),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                              const Text("Adres"),
-                              TextField(
-                                controller: addressTextController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  hintText: 'Pl. Politechniki 1, GG, pokój 133',
-                                ),
-                              ),
-                            ]))
-                      ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text("Adres"),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: addressTextController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Pl. Politechniki 1, GG, pokój 133',
                     ),
-                    const SizedBox(height: 30),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: SizedBox(
-                            height: 60,
-                            child: ElevatedButton(
-                              onPressed: () =>
-                                  widget.controller.onRegisterClicked(context, nameTextController.text, addressTextController.text),
-                              child: const Text('Zarejestruj'),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: SizedBox(
-                          height: 60,
-                          child: ElevatedButton(
-                            onPressed: () =>
-                                widget.controller.onCancelClicked(context),
-                            style: AppWidgetsThemes.cancelButtonStyle,
-                            child: const Text(
-                              'Anuluj',
-                              style: AppTextThemes.bodyError,
-                            ),
-                          ),
-                        ))
-                      ],
-                    ),
-                  ],
-                ))));
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                  backgroundColor: Colors.purple,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  shadowColor: Colors.black45,
+                  elevation: 5,
+                ),
+                onPressed: () {
+                  controller.onRegisterClicked(
+                    context,
+                    nameTextController.text,
+                    addressTextController.text,
+                  );
+                },
+                child: const Text(
+                  'Zarejestruj',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                  backgroundColor: Colors.purple,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  shadowColor: Colors.black45,
+                  elevation: 5,
+                ),
+                onPressed: () => controller.onCancelClicked(context),
+                child: const Text(
+                  'Anuluj',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

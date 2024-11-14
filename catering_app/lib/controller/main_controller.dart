@@ -1,19 +1,23 @@
-import 'package:flutter/material.dart';
-
-import 'package:catering_app/controller/catering_registration_controller.dart';
-
 import 'package:catering_app/view/catering_registration_view.dart';
+import 'package:flutter/material.dart';
+import 'package:catering_app/view/client_registration_view.dart';
 
-class MainController {
-  const MainController();
-
+class MainController extends ChangeNotifier {
   void onCateringSupplierRegistrationClicked(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) =>  CateringRegistartionView(
-            controller: CateringRegistrationController())));
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const CateringRegistrationView()),
+    );
+  }
+
+  void onClientRegistrationClicked(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const ClientRegistrationView()),
+    );
   }
 
   void onLoginClicked(BuildContext context) {
-    // TODO Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginView(controller: LoginController())));
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const ClientRegistrationView()),
+    );
   }
 }
