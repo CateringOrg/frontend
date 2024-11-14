@@ -15,6 +15,16 @@ class CateringRegistartionView extends StatefulWidget {
 }
 
 class _CateringRegistartionViewState extends State<CateringRegistartionView> {
+  final nameTextController = TextEditingController();
+  final addressTextController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameTextController.dispose();
+    addressTextController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -27,41 +37,39 @@ class _CateringRegistartionViewState extends State<CateringRegistartionView> {
                     const Text('Zarejestruj firme kateringowa',
                         style: AppTextThemes.headline),
                     const SizedBox(height: 200),
-                    const Row(
+                    Row(
                       children: <Widget>[
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text("Nazwa"),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                              const Text("Nazwa"),
                               TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Firma 123',
-                            ),
-                          ),
-                            ]
-                          )
-                        )
+                                controller: nameTextController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Firma 123',
+                                ),
+                              ),
+                            ]))
                       ],
                     ),
                     const SizedBox(height: 30),
-                    const Row(
+                    Row(
                       children: <Widget>[
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text("Adres"),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                              const Text("Adres"),
                               TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Pl. Politechniki 1, GG, pokój 133',
-                            ),
-                          ),
-                            ]
-                          )
-                        )
+                                controller: addressTextController,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Pl. Politechniki 1, GG, pokój 133',
+                                ),
+                              ),
+                            ]))
                       ],
                     ),
                     const SizedBox(height: 30),
@@ -72,7 +80,7 @@ class _CateringRegistartionViewState extends State<CateringRegistartionView> {
                             height: 60,
                             child: ElevatedButton(
                               onPressed: () =>
-                                  widget.controller.onRegisterClicked(context),
+                                  widget.controller.onRegisterClicked(context, nameTextController.text, addressTextController.text),
                               child: const Text('Zarejestruj'),
                             ),
                           ),

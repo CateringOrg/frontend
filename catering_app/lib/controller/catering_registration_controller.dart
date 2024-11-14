@@ -8,7 +8,7 @@ import 'package:catering_app/view/main_view.dart';
 class CateringRegistrationController {
   const CateringRegistrationController();
 
-  void onRegisterClicked(BuildContext context) {
+  void onRegisterClicked(BuildContext context, String name, String address) {
     // TODO Navigator.of(context).push(MaterialPageRoute(builder: (context) => CateringRegistartionView(controller: this)));
   }
 
