@@ -32,7 +32,7 @@ class _MainViewState extends State<MainView> {
                         child: ElevatedButton(
                           onPressed: () {
                             widget.controller
-                                .onCateringSupplierRegistrationClicked();
+                                .onCateringSupplierRegistrationClicked(context);
                           },
                           child: const Text('Zarejestruj firme cateringowa'),
                         ),
@@ -47,7 +47,7 @@ class _MainViewState extends State<MainView> {
                     height: 60,
                     child: ElevatedButton(
                       onPressed: () {
-                        widget.controller.onLoginClicked();
+                        widget.controller.onLoginClicked(context);
                       },
                       child: const Text('Zaloguj'),
                     ),
