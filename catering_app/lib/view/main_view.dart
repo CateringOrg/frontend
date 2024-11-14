@@ -18,7 +18,7 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     return Center(
         child: FractionallySizedBox(
-            widthFactor: 0.4,
+            widthFactor: 0.6,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[

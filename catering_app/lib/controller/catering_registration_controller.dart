@@ -9,11 +9,11 @@ class CateringRegistrationController {
   const CateringRegistrationController();
 
   void onRegisterClicked(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CateringRegistartionView(controller: this)));
+    // TODO Navigator.of(context).push(MaterialPageRoute(builder: (context) => CateringRegistartionView(controller: this)));
   }
 
   void onCancelClicked(BuildContext context) {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MainView(controller: MainController())));
+        Navigator.of(context).pop();
 
   }
 }

@@ -113,6 +113,10 @@ class AppTextThemes {
     fontWeight: FontWeight.w400,
   );
 
+  static const TextStyle bodyError = TextStyle(
+    color: AppColor.error,
+  );
+
   static const TextStyle emphasis = TextStyle(
     fontWeight: FontWeight.w600,
   );
@@ -179,8 +183,26 @@ class AppWidgetsThemes {
     textStyle: MaterialStateProperty.all<TextStyle>(AppTextThemes.button),
   );
 
+  static ButtonStyle cancelButtonStyle = ButtonStyle(
+    backgroundColor:
+        MaterialStateProperty.all<Color>(AppColor.secondaryBackground),
+    foregroundColor: MaterialStateProperty.all<Color>(AppColor.secondary),
+    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10.0),
+      side: const BorderSide(color: Colors.red),
+      // TODO replace with const
+    )),
+    textStyle: MaterialStateProperty.all<TextStyle>(AppTextThemes.bodyError),
+  );
+
   static ElevatedButtonThemeData mainElevatedButtonTheme =
       ElevatedButtonThemeData(
     style: mainButtonStyle,
+  );
+
+  static ElevatedButtonThemeData cancelElevatedButtonTheme =
+      ElevatedButtonThemeData(
+    style: cancelButtonStyle,
   );
 }

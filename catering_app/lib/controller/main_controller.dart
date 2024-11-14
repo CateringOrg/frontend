@@ -9,7 +9,7 @@ class MainController {
 
   void onCateringSupplierRegistrationClicked(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const CateringRegistartionView(
+        builder: (context) =>  CateringRegistartionView(
             controller: CateringRegistrationController())));
   }
 
