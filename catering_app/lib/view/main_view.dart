@@ -54,6 +54,31 @@ class MainView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  // TODO Make this button available after login by catering company
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 6, horizontal: 16),
+                      backgroundColor: Colors.purple,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      shadowColor: Colors.black45,
+                      elevation: 5,
+                    ),
+                    onPressed: () {
+                      mainController
+                          .onShowAddMealFormClicked(context);
+                    },
+                    child: const Text(
+                      'Dodaj posiłek',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(

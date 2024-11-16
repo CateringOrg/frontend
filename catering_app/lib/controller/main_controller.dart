@@ -1,6 +1,7 @@
 import 'package:catering_app/view/catering_registration_view.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_app/view/client_registration_view.dart';
+import 'package:catering_app/controller/company_offers_controller.dart';
 
 class MainController extends ChangeNotifier {
   void onCateringSupplierRegistrationClicked(BuildContext context) {
@@ -19,5 +20,10 @@ class MainController extends ChangeNotifier {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const ClientRegistrationView()),
     );
+  }
+
+  void onShowAddMealFormClicked(BuildContext context) {
+    final CateringCompanyOffersLogic companyOffersLogic = CateringCompanyOffersLogic(context);
+    companyOffersLogic.onShowAddMealFormClicked();
   }
 }
