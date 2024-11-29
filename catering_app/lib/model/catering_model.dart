@@ -1,50 +1,78 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:catering_app/model/catering_model.dart'
-
-// TODO ten api kontroler jest do pierdololnego piwa
-// pysznego złotego napoju z chmielu
+import 'package:catering_app/data/meal_data.dart';
 
 class CateringModel {
-  final String baseUrl = "TODO";
-  // final String? authToken = Auth.instance.accessToken; TODO are we using auth tokens?
+  final String baseUrl = "http://localhost:8080";
+  //final String? authToken = Auth.instance.accessToken; TODO are we using auth tokens?
 
-  Future<List<Beer>> getAllBeers() async {
-    return _getBeers('$baseUrl/beers');
+  Future<List<Meal>> getAllMeals() async {
+    return _getMeals('$baseUrl/offers');
   }
 
-  Future<Beer> getBeerById(int beerId) async {
-    return _getBeer('$baseUrl/beers/$beerId');
+  Future<Map<String, dynamic>> addMealToCart(int mealId, int userId) async {
+    try {
+      final url = Uri.parse("$baseUrl/orders"); //TODO endpoint
+      final response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          //"Authorization": "Bearer YOUR_AUTH_TOKEN"
+        },
+        body: jsonEncode({
+          "mealId": mealId,
+          "userId": userId,
+        }),
+      );
+      if (response.statusCode == 200) {
+        return {"success": true};
+      } else {
+        final errorBody = jsonDecode(response.body);
+        return {
+          "success": false,
+          "message": errorBody['message'] ?? 'Zaszedł bląd. Spróbuj później.'
+        };
+      }
+    } catch (e) {
+      return {
+        "success": false,
+        "message": "Nie udało się połączyć z serwerem."
+      };
+    }
   }
 
-  Future<List<Beer>> getBeersByType(int typeId) async {
-    return _getBeers('$baseUrl/beers/type/$typeId');
+  Future<Meal> getMealById(int mealId) async {
+    return _getMeal('$baseUrl/offers/$mealId');
   }
 
-  Future<List<Beer>> searchBeers(String query) async {
-    Uri uri = Uri.parse('$baseUrl/beers/search?name=$query');
-    return _getBeers(uri.toString());
+  Future<List<Meal>> getMealsByType(int typeId) async {
+    return _getMeals('$baseUrl/offers/type/$typeId');
   }
 
-  Future<List<Beer>> searchScannedBeers(String query) async {
-    Uri uri = Uri.parse('$baseUrl/beers/search/tags?name=$query');
-    return _getBeers(uri.toString());
+  Future<List<Meal>> searchMeals(String query) async {
+    Uri uri = Uri.parse('$baseUrl/offers/search?name=$query');
+    return _getMeals(uri.toString());
   }
 
-  Future<Beer> getRandomBeer() async {
-    return _getBeer('$baseUrl/beers/random/get');
+  Future<List<Meal>> searchScannedMeals(String query) async {
+    Uri uri = Uri.parse('$baseUrl/offers/search/tags?name=$query');
+    return _getMeals(uri.toString());
   }
 
-  Future<List<Beer>> getBeersByProducer(int producerId) async {
-    return _getBeers('$baseUrl/beers/producer/$producerId');
+  Future<Meal> getRandomMeal() async {
+    return _getMeal('$baseUrl/offers/random/get');
   }
 
-  Future<List<Beer>> getFavoriteBeers() async {
-    return _getBeers('$baseUrl/beers/$userId/favorite');
+  Future<List<Meal>> getMealsByProducer(int producerId) async {
+    return _getMeals('$baseUrl/offers/producer/$producerId');
   }
 
-  Future<bool> checkIfBeerIsLiked(int beerId) async {
-    Uri uri = Uri.parse('$baseUrl/beers/$beerId/isLikedByUser?userId=$userId');
+  Future<List<Meal>> getFavoriteMeals(int userId) async {
+    return _getMeals('$baseUrl/offers/$userId/favorite');
+  }
+
+  Future<bool> checkIfMealIsLiked(int mealId, int userId) async {
+    Uri uri = Uri.parse('$baseUrl/offers/$mealId/isLikedByUser?userId=$userId');
     print("GET $uri");
     final response = await http.get(uri, headers: _headers());
     print("Response Status: ${response.statusCode}");
@@ -53,58 +81,58 @@ class CateringModel {
     return isLiked;
   }
 
-  Future<http.Response> createBeer(Map<String, dynamic> beerData) async {
-    Uri uri = Uri.parse('$baseUrl/beers');
-    return _postJson(uri, beerData);
+  Future<http.Response> createMeal(Map<String, dynamic> mealData) async {
+    Uri uri = Uri.parse('$baseUrl/offers');
+    return _postJson(uri, mealData);
   }
 
-  Future<http.Response> updateBeer(
-      int beerId, Map<String, dynamic> beerData) async {
-    Uri uri = Uri.parse('$baseUrl/beers/$beerId');
-    return _putJson(uri, beerData);
+  Future<http.Response> updateMeal(
+      int mealId, Map<String, dynamic> mealData) async {
+    Uri uri = Uri.parse('$baseUrl/offers/$mealId');
+    return _putJson(uri, mealData);
   }
 
-  Future<http.Response> deleteBeer(int beerId) async {
-    Uri uri = Uri.parse('$baseUrl/beers/$beerId');
+  Future<http.Response> deleteMeal(int mealId) async {
+    Uri uri = Uri.parse('$baseUrl/offers/$mealId');
     return _delete(uri);
   }
 
-  Future<http.Response> favoriteBeer(int beerId) async {
-    Uri uri = Uri.parse('$baseUrl/beers/$beerId/favorite');
+  Future<http.Response> favoriteMeal(int mealId) async {
+    Uri uri = Uri.parse('$baseUrl/offers/$mealId/favorite');
     return _postJson(uri, {});
   }
 
-  Future<http.Response> favoriteBeerDelete(int beerId) async {
-    Uri uri = Uri.parse('$baseUrl/beers/$beerId/favorite');
+  Future<http.Response> favoriteMealDelete(int mealId) async {
+    Uri uri = Uri.parse('$baseUrl/offers/$mealId/favorite');
     return _delete(uri);
   }
 
-  Future<List<Beer>> _getBeers(String url) async {
+  Future<List<Meal>> _getMeals(String url) async {
     Uri uri = Uri.parse(url);
     print("GET $uri");
     final response = await http.get(uri, headers: _headersForAll());
     print("Response Status: ${response.statusCode}");
     print("Response Body: ${response.body}");
     if (response.statusCode == 200) {
-      List<dynamic> beerJsonList = jsonDecode(response.body);
-      return beerJsonList.map((json) => Beer.fromJson(json)).toList();
+      List<dynamic> mealJsonList = jsonDecode(response.body);
+      return mealJsonList.map((json) => Meal.fromJson(json)).toList();
     } else {
       throw Exception(
-          'Failed to load beers: ${response.statusCode}. Response: ${response.body}');
+          'Failed to load meals: ${response.statusCode}. Response: ${response.body}');
     }
   }
 
-  Future<Beer> _getBeer(String url) async {
+  Future<Meal> _getMeal(String url) async {
     Uri uri = Uri.parse(url);
     print("GET $uri");
     final response = await http.get(uri, headers: _headersForAll());
     print("Response Status: ${response.statusCode}");
     print("Response Body: ${response.body}");
     if (response.statusCode == 200) {
-      return Beer.fromJson(jsonDecode(response.body));
+      return Meal.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(
-          'Failed to load beer: ${response.statusCode}. Response: ${response.body}');
+          'Failed to load meal: ${response.statusCode}. Response: ${response.body}');
     }
   }
 
@@ -116,7 +144,7 @@ class CateringModel {
     print("Response Body: ${response.body}");
     if (response.statusCode >= 400) {
       throw Exception(
-          'Failed to create beer: ${response.statusCode}. Response: ${response.body}');
+          'Failed to create meal: ${response.statusCode}. Response: ${response.body}');
     }
     return response;
   }
@@ -129,7 +157,7 @@ class CateringModel {
     print("Response Body: ${response.body}");
     if (response.statusCode >= 400) {
       throw Exception(
-          'Failed to update beer: ${response.statusCode}. Response: ${response.body}');
+          'Failed to update meal: ${response.statusCode}. Response: ${response.body}');
     }
     return response;
   }
@@ -141,7 +169,7 @@ class CateringModel {
     print("Response Body: ${response.body}");
     if (response.statusCode >= 400) {
       throw Exception(
-          'Failed to delete beer: ${response.statusCode}. Response: ${response.body}');
+          'Failed to delete meal: ${response.statusCode}. Response: ${response.body}');
     }
     return response;
   }
@@ -149,7 +177,7 @@ class CateringModel {
   Map<String, String> _headers({bool contentType = false}) {
     final headers = {
       'accept': 'application/json',
-      'Authorization': 'Bearer $authToken',
+      /*'Authorization': 'Bearer $authToken',*/
     };
     if (contentType) {
       headers['Content-Type'] = 'application/json';
