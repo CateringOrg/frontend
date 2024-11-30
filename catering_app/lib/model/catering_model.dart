@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:catering_app/data/meal_data.dart';
+import 'package:catering_app/data/add_meal_data.dart';
 
 class CateringModel {
   final String baseUrl = "http://localhost:8080";
@@ -22,6 +23,39 @@ class CateringModel {
         body: jsonEncode({
           "mealId": mealId,
           "userId": userId,
+        }),
+      );
+      if (response.statusCode == 200) {
+        return {"success": true};
+      } else {
+        final errorBody = jsonDecode(response.body);
+        return {
+          "success": false,
+          "message": errorBody['message'] ?? 'Zaszedł bląd. Spróbuj później.'
+        };
+      }
+    } catch (e) {
+      return {
+        "success": false,
+        "message": "Nie udało się połączyć z serwerem."
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> addCompanyMeal(AddMealDTO addMealData) async {
+    try {
+      final cateringCompanyId = '1';  // TODO: WHICH ID HERE???
+      final url = Uri.parse("$baseUrl/$cateringCompanyId/meals");
+      final response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          //"Authorization": "Bearer YOUR_AUTH_TOKEN"
+        },
+        body: jsonEncode({
+          "description": addMealData.description,
+          "price": double.tryParse(addMealData.price),
+          "photoUrls": [addMealData.photoUrl],
         }),
       );
       if (response.statusCode == 200) {

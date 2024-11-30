@@ -1,0 +1,6 @@
+services:
+  frontend:
+    build:
+      context: ./catering_app
+    ports:
+      - "3000:80"

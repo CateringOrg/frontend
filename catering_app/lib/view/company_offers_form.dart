@@ -85,7 +85,7 @@ class _MealFormViewState extends State<MealFormView> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const Text("Opis"),
+                  const Text("Nazwa"),
                   const SizedBox(height: 8),
                   TextField(
                     controller: descriptionController,

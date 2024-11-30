@@ -9,4 +9,5 @@ abstract class ICateringCompanyOffersLogic {
 abstract class ICateringCompanyOffersUI {
   void showMealDataForm();
   void showSuccessMessage();
+  void showErrorMessage(String message);
 }

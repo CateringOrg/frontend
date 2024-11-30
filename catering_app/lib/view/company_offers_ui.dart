@@ -18,7 +18,28 @@ class CateringCompanyOffersUI implements ICateringCompanyOffersUI {
   @override
   void showSuccessMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Posiłek został pomyślnie dodany.")),
+      SnackBar(
+        content: const Text(
+          "Posiłek został pomyślnie dodany.",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+      ),
     );
   }
+
+  @override
+  void showErrorMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+}
 }
