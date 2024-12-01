@@ -9,6 +9,7 @@ class CateringRegistrationController extends ChangeNotifier {
     );
   }
 
+
   void onCancelClicked(BuildContext context) {
     Navigator.of(context).pop();
   }
