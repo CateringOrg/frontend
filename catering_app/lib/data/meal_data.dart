@@ -16,8 +16,7 @@ class Meal {
       id: json['id'],
       description: json['description'],
       price: json['price'],
-      imageUrl:
-          json['imageUrl'], // Assume this field links to photos_urls_meals
+      imageUrl: json['imageUrl'],
     );
   }
 }

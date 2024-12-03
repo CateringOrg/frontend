@@ -8,7 +8,34 @@ class CateringModel {
   //final String? authToken = Auth.instance.accessToken; TODO are we using auth tokens?
 
   Future<List<Meal>> getAllMeals() async {
-    return _getMeals('$baseUrl/offers');
+    return _postAllMeals('$baseUrl/offers/search/meals');
+  }
+
+  Future<List<Meal>> _postAllMeals(String url) async {
+    Uri uri = Uri.parse(url);
+    print("POST $uri");
+
+    try {
+      final response = await http.post(
+        uri,
+        headers: _headersForAll(),
+      );
+
+      print("Response Status: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        List<dynamic> mealJsonList = jsonDecode(response.body);
+        return mealJsonList.map((json) => Meal.fromJson(json)).toList();
+      } else if (response.statusCode == 404) {
+        throw Exception("nie znaleziono posiłków.");
+      } else {
+        throw Exception("nieoczekiwany problem: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error in POST request: $e");
+      throw Exception("nie udało się pobrać posiłków: ${e.toString()}");
+    }
   }
 
   Future<Map<String, dynamic>> addMealToCart(int mealId, int userId) async {
@@ -44,7 +71,7 @@ class CateringModel {
 
   Future<Map<String, dynamic>> addCompanyMeal(AddMealDTO addMealData) async {
     try {
-      final cateringCompanyId = '1';  // TODO: WHICH ID HERE???
+      final cateringCompanyId = '1'; // TODO: WHICH ID HERE???
       final url = Uri.parse("$baseUrl/$cateringCompanyId/meals");
       final response = await http.post(
         url,

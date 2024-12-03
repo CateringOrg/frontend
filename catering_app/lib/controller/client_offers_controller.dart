@@ -7,7 +7,12 @@ class ClientOffersLogic implements IClientOffersLogic {
 
   @override
   Future<List<Meal>> fetchOffers() async {
-    /*return await model.getAllMeals();*/
+    try {
+      return await model.getAllMeals();
+    } catch (e) {
+      throw Exception("Nie udało się pobrać oferty. Problem - ${e.toString()}");
+    }
+    /*
     await Future.delayed(Duration(seconds: 1));
     return [
       Meal(
@@ -37,7 +42,7 @@ class ClientOffersLogic implements IClientOffersLogic {
           price: 25.60,
           imageUrl:
               "https://assets.tmecosys.com/image/upload/t_web767x639/img/recipe/ras/Assets/1bf4aa25-a9b5-4f69-88f2-00561c88e468/Derivates/f85016b7-2c01-466c-a668-ab75eff4de1e.jpg"),
-    ];
+    ];*/
   }
 
   @override

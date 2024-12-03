@@ -46,7 +46,7 @@ class _ClientOffersListViewState extends State<ClientOffersListView> {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(
-                child: Text("Error: ${snapshot.error}"),
+                child: Text("${snapshot.error}"),
               );
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
               return const Center(
