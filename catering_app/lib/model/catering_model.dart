@@ -26,7 +26,17 @@ class CateringModel {
 
       if (response.statusCode == 200) {
         List<dynamic> mealJsonList = jsonDecode(response.body);
-        return mealJsonList.map((json) => Meal.fromJson(json)).toList();
+
+        return mealJsonList.map((json) {
+          final List<dynamic> photoUrls = json['photoUrls'] ?? [];
+          final String firstPhotoUrl =
+              photoUrls.isNotEmpty ? photoUrls[0] as String : '';
+
+          return Meal.fromJson({
+            ...json,
+            'photoUrls': firstPhotoUrl,
+          });
+        }).toList();
       } else if (response.statusCode == 404) {
         throw Exception("nie znaleziono posiłków.");
       } else {

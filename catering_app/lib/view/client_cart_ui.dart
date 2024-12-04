@@ -1,26 +1,22 @@
+import 'package:catering_app/interfaces/client_cart.dart';
 import 'package:flutter/material.dart';
-import 'package:catering_app/interfaces/company_offers.dart';
-import 'package:catering_app/view/company_offers_form.dart';
 
-class CateringCompanyOffersUI implements ICateringCompanyOffersUI {
+class ClientCartUI implements IClientCartUI {
   final BuildContext context;
 
-  CateringCompanyOffersUI(this.context);
+  ClientCartUI(this.context);
 
   @override
-  void showMealDataForm() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const MealFormView()),
-    );
+  void navigateBack() {
+    Navigator.pop(context);
   }
 
   @override
-  void showSuccessMessage() {
+  void showOrderSuccessMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text(
-          "Posiłek został pomyślnie dodany.",
+          "Zamówienie złożone pomyślnie.",
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.green,
@@ -30,7 +26,7 @@ class CateringCompanyOffersUI implements ICateringCompanyOffersUI {
   }
 
   @override
-  void showErrorMessage(String message) {
+  void showOrderErrorMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -41,5 +37,5 @@ class CateringCompanyOffersUI implements ICateringCompanyOffersUI {
         behavior: SnackBarBehavior.floating,
       ),
     );
-}
+  }
 }
