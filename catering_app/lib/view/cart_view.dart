@@ -161,7 +161,7 @@ class CartView extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      logic.onOrderButtonClicked();
+                      logic.onOrderButtonClicked(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.fontEmphasis,

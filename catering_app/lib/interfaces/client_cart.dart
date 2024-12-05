@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 abstract class IClientCartUI {
   void navigateBack();
   void showOrderSuccessMessage();
@@ -7,5 +9,5 @@ abstract class IClientCartUI {
 abstract class IClientCartLogic {
   double getTotalPrice();
   int getTotalCalories();
-  void onOrderButtonClicked();
+  void onOrderButtonClicked(BuildContext context);
 }
