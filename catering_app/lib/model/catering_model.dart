@@ -29,8 +29,9 @@ class CateringModel {
 
         return mealJsonList.map((json) {
           final List<dynamic> photoUrls = json['photoUrls'] ?? [];
-          final String firstPhotoUrl =
-              photoUrls.isNotEmpty ? photoUrls[0] as String : '';
+          final String firstPhotoUrl = photoUrls.isNotEmpty
+              ? photoUrls[0] as String
+              : 'https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg';
 
           return Meal.fromJson({
             ...json,
