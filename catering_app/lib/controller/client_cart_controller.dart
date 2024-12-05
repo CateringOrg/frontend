@@ -1,7 +1,6 @@
+import 'package:catering_app/data/meal_data.dart';
 import 'package:catering_app/interfaces/client_cart.dart';
 import 'package:catering_app/data/cart_data.dart';
-import 'package:catering_app/view/client_place_order_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ClientCartLogic implements IClientCartLogic {
@@ -9,6 +8,17 @@ class ClientCartLogic implements IClientCartLogic {
   final CartData cartData;
 
   ClientCartLogic(this.ui, this.cartData);
+
+  @override
+  void addMealToCart(Meal meal) {
+    try {
+      cartData.addMealToCart(meal);
+      ui.showOrderSuccessMessage();
+    } catch (e) {
+      ui.showOrderErrorMessage(
+          "Wystąpił błąd podczas dodawania produktu do koszyka!");
+    }
+  }
 
   @override
   double getTotalPrice() {
@@ -21,19 +31,13 @@ class ClientCartLogic implements IClientCartLogic {
   }
 
   @override
-  void onOrderButtonClicked(BuildContext context) async {
-    // Zhardcodowane narazie
-    /*const bool isOrderSuccessful = true;
-
-    if (isOrderSuccessful) {
-      ui.showOrderSuccessMessage();
-    } else {
-      ui.showOrderErrorMessage("Wystąpił problem z zamówieniem.");
-    }
-    ui.navigateBack();*/
-
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const ClientOrderFormView()),
-    );
+  void showClientOffersUI(BuildContext context) {
+    ui.onShowClientOrderingUIClicked();
   }
+  
+@override
+void showClientOrderFormView(BuildContext context) {
+  ui.onOrderButtonClicked();
+}
+
 }

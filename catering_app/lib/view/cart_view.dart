@@ -76,7 +76,8 @@ class CartView extends StatelessWidget {
                         controller: scrollController,
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         itemCount: logic.cartData.meals.length,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 12.0,
                           mainAxisSpacing: 12.0,
@@ -106,8 +107,10 @@ class CartView extends StatelessWidget {
                                   const SizedBox(width: 12.0),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           meal.description,
@@ -161,7 +164,7 @@ class CartView extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      logic.onOrderButtonClicked(context);
+                      logic.showClientOrderFormView(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.fontEmphasis,
@@ -185,11 +188,14 @@ class CartView extends StatelessWidget {
                   width: double.infinity,
                   child: OutlinedButton(
                     onPressed: () {
-                      logic.ui.navigateBack();
+                      Navigator.pop(
+                          context);
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(
-                          color: AppColor.fontEmphasis, width: 2.0),
+                        color: AppColor.fontEmphasis,
+                        width: 2.0,
+                      ),
                       padding: const EdgeInsets.symmetric(vertical: 20.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),

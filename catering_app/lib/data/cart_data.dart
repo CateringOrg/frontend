@@ -1,16 +1,16 @@
-import 'meal_data.dart';
+import 'package:catering_app/data/meal_data.dart';
+import 'package:catering_app/interfaces/client_cart.dart';
 
-class CartData {
+class CartData implements IClientCartData {
   final List<Meal> _meals = [];
 
-  List<Meal> get meals => List.unmodifiable(_meals);
+  @override
+  void addMealToCart(Meal meal) {
+    _meals.add(meal);
+  }
 
   double get totalPrice {
     return _meals.fold(0.0, (sum, meal) => sum + meal.price);
-  }
-
-  void addMeal(Meal meal) {
-    _meals.add(meal);
   }
 
   void removeMeal(String mealId) {
@@ -20,4 +20,6 @@ class CartData {
   void clearCart() {
     _meals.clear();
   }
+
+  List<Meal> get meals => _meals;
 }
