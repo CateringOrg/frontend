@@ -1,18 +1,36 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:catering_app/controller/catering_registration_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:catering_app/data/catering_registration_data.dart';
+import 'package:catering_app/interfaces/catering_registration.dart';
+import 'package:catering_app/assets/themes.dart';
 
 class CateringRegistrationView extends StatefulWidget {
   const CateringRegistrationView({super.key});
 
   @override
-  State<CateringRegistrationView> createState() => _CateringRegistrationViewState();
+  State<CateringRegistrationView> createState() =>
+      _CateringRegistrationViewState();
 }
 
 class _CateringRegistrationViewState extends State<CateringRegistrationView> {
+  String errorInfo = "";
+  late final ICateringCompanyOffersLogic controller;
+
   final nameTextController = TextEditingController();
   final addressTextController = TextEditingController();
+
+  void setErrorInfo(String info) {
+    setState(() {
+      errorInfo = info;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = CateringRegistrationLogic();
+  }
 
   @override
   void dispose() {
@@ -23,7 +41,6 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Provider.of<CateringRegistrationController>(context, listen: false);
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -35,6 +52,11 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              Text(
+                errorInfo,
+                style: AppTextThemes.bodyError,
+                textAlign: TextAlign.center,
+              ),
               const Text(
                 'Zarejestruj firmę kateringową',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -73,7 +95,8 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
               const SizedBox(height: 30),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
                   backgroundColor: Colors.purple,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -83,10 +106,12 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
                 ),
                 onPressed: () {
                   controller.onRegisterClicked(
-                    context,
-                    nameTextController.text,
-                    addressTextController.text,
-                  );
+                      context,
+                      setErrorInfo,
+                      RegisterCateringDTO(
+                        name: nameTextController.text,
+                        address: addressTextController.text,
+                      ));
                 },
                 child: const Text(
                   'Zarejestruj',
@@ -96,7 +121,8 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
               const SizedBox(height: 20),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 6, horizontal: 16),
                   backgroundColor: Colors.purple,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),

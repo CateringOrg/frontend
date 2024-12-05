@@ -67,8 +67,7 @@ class MainView extends StatelessWidget {
                       elevation: 5,
                     ),
                     onPressed: () {
-                      mainController
-                          .onShowAddMealFormClicked(context);
+                      mainController.onShowAddMealFormClicked(context);
                     },
                     child: const Text(
                       'Dodaj posiłek',

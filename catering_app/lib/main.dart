@@ -11,7 +11,6 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => MainController()),
-        ChangeNotifierProvider(create: (_) => CateringRegistrationController()),
       ],
       child: const MyApp(),
     ),

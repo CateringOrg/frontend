@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:catering_app/data/meal_data.dart';
 import 'package:catering_app/data/add_meal_data.dart';
+import 'package:catering_app/data/catering_registration_data.dart';
 
 class CateringModel {
   final String baseUrl = "http://localhost:8080";
@@ -70,6 +71,41 @@ class CateringModel {
         return {
           "success": false,
           "message": errorBody['message'] ?? 'Zaszedł bląd. Spróbuj później.'
+        };
+      }
+    } catch (e) {
+      return {
+        "success": false,
+        "message": "Nie udało się połączyć z serwerem."
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> registerCateringCompany(
+      RegisterCateringDTO addCateringCompany) async {
+    try {
+      final url = Uri.parse("$baseUrl/catering-companies");
+      final response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          //"Authorization": "Bearer YOUR_AUTH_TOKEN"
+        },
+        body: jsonEncode({
+          "id": '12fcc746-b380-4f0b-a34c-6b110a615a94',
+          "address": addCateringCompany.address,
+          "name": addCateringCompany.name,
+          "nip": '5250005834'
+        }),
+      );
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        return {"success": true};
+      } else {
+        final errorBody = jsonDecode(response.body);
+        print(errorBody);
+        return {
+          "success": false,
+          "message": errorBody['errors'] ?? 'Zaszedł bląd. Spróbuj później.'
         };
       }
     } catch (e) {
