@@ -33,11 +33,11 @@ class CateringCompanyOffersLogic implements ICateringCompanyOffersLogic {
 
   @override
   void onSaveDataClicked(AddMealDTO data) async {
-    await Future.delayed(Duration(seconds: 1));
     final result = await model.addCompanyMeal(data);
 
     if (result["success"]) {
       ui.showSuccessMessage();
+      ui.navigateBack();
     } else {
       ui.showErrorMessage(result["message"]);
     }

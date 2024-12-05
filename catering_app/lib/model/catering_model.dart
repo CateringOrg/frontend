@@ -82,8 +82,8 @@ class CateringModel {
 
   Future<Map<String, dynamic>> addCompanyMeal(AddMealDTO addMealData) async {
     try {
-      final cateringCompanyId = '1'; // TODO: WHICH ID HERE???
-      final url = Uri.parse("$baseUrl/$cateringCompanyId/meals");
+      final cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
+      final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals");
       final response = await http.post(
         url,
         headers: {
@@ -96,7 +96,7 @@ class CateringModel {
           "photoUrls": [addMealData.photoUrl],
         }),
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 204) {
         return {"success": true};
       } else {
         final errorBody = jsonDecode(response.body);

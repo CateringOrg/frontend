@@ -8,6 +8,7 @@ abstract class ICateringCompanyOffersLogic {
 
 abstract class ICateringCompanyOffersUI {
   void showMealDataForm();
+  void navigateBack();
   void showSuccessMessage();
   void showErrorMessage(String message);
 }

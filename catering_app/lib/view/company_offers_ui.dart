@@ -8,6 +8,11 @@ class CateringCompanyOffersUI implements ICateringCompanyOffersUI {
   CateringCompanyOffersUI(this.context);
 
   @override
+  void navigateBack() {
+    Navigator.pop(context);
+  }
+
+  @override
   void showMealDataForm() {
     Navigator.push(
       context,
