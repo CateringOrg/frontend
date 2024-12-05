@@ -94,16 +94,18 @@ class CateringModel {
         body: jsonEncode({
           "id": '12fcc746-b380-4f0b-a34c-6b110a615a94',
           "address": addCateringCompany.address,
-          "name": addCateringCompany.name
+          "name": addCateringCompany.name,
+          "nip": '5250005834'
         }),
       );
       if (response.statusCode == 200 || response.statusCode == 204) {
         return {"success": true};
       } else {
         final errorBody = jsonDecode(response.body);
+        print(errorBody);
         return {
           "success": false,
-          "message": errorBody['message'] ?? 'Zaszedł bląd. Spróbuj później.'
+          "message": errorBody['errors'] ?? 'Zaszedł bląd. Spróbuj później.'
         };
       }
     } catch (e) {
