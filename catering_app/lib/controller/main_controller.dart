@@ -1,8 +1,8 @@
+import 'package:catering_app/controller/company_offers_logic/show_offers_list_logic.dart';
 import 'package:catering_app/view/catering_registration_view.dart';
 import 'package:catering_app/view/client_offers_list.dart';
 import 'package:flutter/material.dart';
 //import 'package:catering_app/view/client_registration_view.dart';
-import 'package:catering_app/controller/company_offers_controller.dart';
 
 class MainController extends ChangeNotifier {
   void onCateringSupplierRegistrationClicked(BuildContext context) {
@@ -26,9 +26,9 @@ class MainController extends ChangeNotifier {
     );
   }
 
-  void onShowAddMealFormClicked(BuildContext context) {
-    final CateringCompanyOffersLogic companyOffersLogic =
-        CateringCompanyOffersLogic(context);
-    companyOffersLogic.onShowAddMealFormClicked();
+  void onShowListOfCompanyOffersClicked(BuildContext context) {
+    final CateringCompanyShowOffersListLogic companyOffersLogic =
+        CateringCompanyShowOffersListLogic(context);
+    companyOffersLogic.onShowListOfOffersClicked();
   }
 }
