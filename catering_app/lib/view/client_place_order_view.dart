@@ -22,6 +22,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
   final fifthCodeController = TextEditingController();
   final cityController = TextEditingController();
   final addressController = TextEditingController();
+  final dateController = TextEditingController();
   final infoController = TextEditingController();
   String? generalError;
 
@@ -31,7 +32,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
   }
 
   @override
-  void dispose() {
+  void dispose(){
     nameController.dispose();
     surnameController.dispose();
     telephoneController.dispose();
@@ -44,6 +45,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
     cityController.dispose();
     addressController.dispose();
     infoController.dispose();
+    dateController.dispose();
     super.dispose();
   }
 
@@ -258,6 +260,25 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                     ),
                   ),
 
+                  const SizedBox(width: 20),
+
+                  Flexible(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const Text("Ulica, Nr budynku/mieszkania"),
+                        TextField(
+                          controller: addressController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: '',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
                 ],
               ),
               const SizedBox(height: 15),
@@ -266,7 +287,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Text("Ulica, Nr budynku/mieszkania"),
+                    const Text("Data dowozu"),
                     TextField(
                       controller: addressController,
                       decoration: const InputDecoration(
@@ -329,7 +350,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                       width: double.infinity,
                       child: OutlinedButton(
                         onPressed: () {
-
+                          Navigator.pop(context);
                         },
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(
