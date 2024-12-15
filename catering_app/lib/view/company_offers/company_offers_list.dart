@@ -65,7 +65,7 @@ class _CateringCompanyOffersListViewState
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      meal.description,
+                                      meal.name,
                                       style: const TextStyle(
                                         fontSize: 26,
                                         color: AppColor.fontEmphasis,
@@ -77,6 +77,15 @@ class _CateringCompanyOffersListViewState
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
+                                        Text(
+                                          meal.description,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            color: AppColor.fontEmphasis,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+
                                         IconButton(
                                           icon: const Icon(Icons.edit),
                                           onPressed: () =>

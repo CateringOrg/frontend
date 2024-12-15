@@ -16,6 +16,7 @@ class MealFormView extends StatefulWidget {
 class _MealFormViewState extends State<MealFormView> {
   late final AddMealDTO formData;
 
+  final nameController = TextEditingController();
   final descriptionController = TextEditingController();
   final priceController = TextEditingController();
   final photoUrlController = TextEditingController();
@@ -26,15 +27,20 @@ class _MealFormViewState extends State<MealFormView> {
     super.initState();
 
     formData = AddMealDTO(
+      name: widget.initialMeal?.name ?? '',
       description: widget.initialMeal?.description ?? '',
       price: widget.initialMeal?.price.toString() ?? '',
       photoUrl: widget.initialMeal?.photoUrls ?? '',
     );
 
+    nameController.text = formData.name;
     descriptionController.text = formData.description;
     priceController.text = formData.price;
     photoUrlController.text = formData.photoUrl;
 
+    nameController.addListener((){
+      formData.name = nameController.text;
+    });
     descriptionController.addListener(() {
       formData.description = descriptionController.text;
     });
@@ -48,6 +54,7 @@ class _MealFormViewState extends State<MealFormView> {
 
   @override
   void dispose() {
+    nameController.dispose();
     descriptionController.dispose();
     priceController.dispose();
     photoUrlController.dispose();
@@ -62,8 +69,11 @@ class _MealFormViewState extends State<MealFormView> {
 
       final errors = <String>[];
 
-      if (formData.description.isEmpty) {
+      if (formData.name.isEmpty) {
         errors.add("Nazwa nie może być pusta.");
+      }
+      if (formData.description.isEmpty) {
+        errors.add("Opis nie może być pusty.");
       }
       if (formData.price.isEmpty) {
         errors.add("Cena nie może być pusta.");
@@ -105,43 +115,68 @@ class _MealFormViewState extends State<MealFormView> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const Text("Nazwa"),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: nameController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Posiłek 123',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const Text("Cena"),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: priceController,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: '123.45',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const Text("Nazwa"),
+                  const Text("Opis"),
                   const SizedBox(height: 8),
                   TextField(
                     controller: descriptionController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Posiłek 123',
+                      hintText: 'danie z rybą',
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text("Cena"),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: priceController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: '123.45',
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   const Text("URL zdjęcia"),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
                   TextField(
                     controller: photoUrlController,
                     decoration: const InputDecoration(
@@ -154,9 +189,9 @@ class _MealFormViewState extends State<MealFormView> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               Container(
-                height: 300,
+                height: 160,
                 width: double.infinity,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
