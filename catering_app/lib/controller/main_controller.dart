@@ -1,3 +1,6 @@
+import 'package:catering_app/controller/main_menu_controller.dart';
+import 'package:catering_app/data/user_roles.dart';
+import 'package:catering_app/interfaces/main_menu_logic.dart';
 import 'package:catering_app/view/catering_registration_view.dart';
 import 'package:catering_app/view/client_offers_list.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +27,24 @@ class MainController extends ChangeNotifier {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const ClientOffersListView()),
     );
+  }
+
+  void onLoginAsClientClicked(BuildContext context) {
+    UserRole role = UserRole.Client;
+    final IMainMenuLogic mainMenuLogic = MainMenuLogic(context, role);
+    mainMenuLogic.showMainMenu();
+  }
+
+  void onLoginAsCompanyClicked(BuildContext context) {
+    UserRole role = UserRole.CateringCompany;
+    final IMainMenuLogic mainMenuLogic = MainMenuLogic(context, role);
+    mainMenuLogic.showMainMenu();
+  }
+
+  void onLoginAsManagerClicked(BuildContext context) {
+    UserRole role = UserRole.Manager;
+    final IMainMenuLogic mainMenuLogic = MainMenuLogic(context, role);
+    mainMenuLogic.showMainMenu();
   }
 
   void onShowAddMealFormClicked(BuildContext context) {
