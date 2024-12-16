@@ -18,6 +18,7 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
 
   final nameTextController = TextEditingController();
   final addressTextController = TextEditingController();
+  final nipController = TextEditingController();
 
   void setErrorInfo(String info) {
     setState(() {
@@ -36,6 +37,7 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
   void dispose() {
     nameTextController.dispose();
     addressTextController.dispose();
+    nipController.dispose();
     super.dispose();
   }
 
@@ -92,6 +94,21 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
                   ),
                 ],
               ),
+              const SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text("NIP"),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: nipController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: '5250005834',
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 30),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -111,6 +128,7 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
                       RegisterCateringDTO(
                         name: nameTextController.text,
                         address: addressTextController.text,
+                        nip: nipController.text,
                       ));
                 },
                 child: const Text(

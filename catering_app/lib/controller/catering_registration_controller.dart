@@ -31,7 +31,7 @@ class CateringRegistrationLogic extends ICateringCompanyOffersLogic {
 
   @override
   bool validateMealData(RegisterCateringDTO data) {
-    return data.name != "" && data.address != "";
+    return data.name != "" && data.address != "" && data.nip != "";
   }
 
   @override
