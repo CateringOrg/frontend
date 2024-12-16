@@ -55,11 +55,6 @@ class MainController extends ChangeNotifier {
     mainMenuLogic.showMainMenu();
   }
 
-  void onShowAddMealFormClicked(BuildContext context) {
-    final CateringCompanyOffersLogic companyOffersLogic =
-        CateringCompanyOffersLogic(context);
-    companyOffersLogic.onShowAddMealFormClicked();
-    
   void onShowListOfCompanyOffersClicked(BuildContext context) {
     final CateringCompanyShowOffersListLogic companyOffersLogic =
         CateringCompanyShowOffersListLogic(context);
