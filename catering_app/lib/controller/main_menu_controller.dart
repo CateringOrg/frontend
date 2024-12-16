@@ -1,29 +1,46 @@
 import 'package:catering_app/data/user_roles.dart';
 import 'package:catering_app/interfaces/main_menu_logic.dart';
-import 'package:catering_app/view/main_menu.dart';
+import 'package:catering_app/interfaces/main_menu_ui.dart';
 import 'package:flutter/material.dart';
 
 class MainMenuLogic implements IMainMenuLogic {
   final BuildContext context;
   final UserRole role;
+  final IMainMenuUI mainMenuUI;
 
-  MainMenuLogic(this.context, this.role);
+  MainMenuLogic(
+      {required this.context, required this.role, required this.mainMenuUI});
 
   @override
   void showMainMenu() {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MainMenuUI(role: role, logic: this),
+        builder: (context) => mainMenuUI.buildMainMenuUI(context, this, role),
       ),
     );
   }
 
   @override
-  void onButtonPress(String action) {
-    if (action == 'managerOrders') {
-      //ManagerOrdersLogic(context).showManagerOrdersPage();
-    }
-    //other
+  void onShowClientOffers() {}
+
+  @override
+  void onShowClientOrders() {}
+
+  @override
+  void onShowClientCart() {}
+
+  @override
+  void onShowCateringFirms() {}
+
+  @override
+  void onShowManagerOrders() {
+    //ManagerOrdersLogic(context).showManagerOrdersPage();
   }
+
+  @override
+  void onShowCateringOffers() {}
+
+  @override
+  void onShowCateringOrders() {}
 }

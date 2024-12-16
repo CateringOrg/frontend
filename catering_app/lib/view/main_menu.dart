@@ -1,53 +1,47 @@
-import 'package:catering_app/controller/main_menu_controller.dart';
 import 'package:catering_app/data/user_roles.dart';
 import 'package:catering_app/interfaces/main_menu_logic.dart';
 import 'package:catering_app/interfaces/main_menu_ui.dart';
 import 'package:flutter/material.dart';
 
-class MainMenuUI extends StatelessWidget implements IMainMenuUI {
-  final UserRole role;
-  final IMainMenuLogic logic;
-
-  MainMenuUI({required this.role, required this.logic});
-
+class MainMenuUI implements IMainMenuUI {
   @override
-  void buildMainMenu(UserRole role) {}
-
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> buttons = [];
-    switch (role) {
-      case UserRole.Client:
-        buttons = [
-          _buildButton('Offers', 'clientOffers'),
-          _buildButton('Orders', 'clientOrders'),
-          _buildButton('Cart', 'clientCart'),
-        ];
-        break;
-      case UserRole.Manager:
-        buttons = [
-          _buildButton('Catering Firms', 'cateringFirms'),
-          _buildButton('Orders', 'managerOrders'),
-        ];
-        break;
-      case UserRole.CateringCompany:
-        buttons = [
-          _buildButton('Offers', 'cateringOffers'),
-          _buildButton('Orders', 'cateringOrders'),
-        ];
-        break;
-    }
-
+  Widget buildMainMenuUI(
+      BuildContext context, IMainMenuLogic logic, UserRole role) {
     return Scaffold(
-      appBar: AppBar(title: Text('Main Menu - ${role.name}')),
-      body: Center(child: Column(children: buttons)),
+      appBar: AppBar(title: Text('Menu główne - ${role.name}')),
+      body: Center(
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          if (role == UserRole.Client) ...[
+            _buildLargeButton('Wszystkie oferty', logic.onShowClientOffers),
+            _buildLargeButton('Zamówienia', logic.onShowClientOrders),
+            _buildLargeButton('Koszyk', logic.onShowClientCart),
+          ] else if (role == UserRole.Manager) ...[
+            _buildLargeButton('Firmy kateringowe', logic.onShowCateringFirms),
+            _buildLargeButton('Zamówienia', logic.onShowManagerOrders),
+          ] else if (role == UserRole.CateringCompany) ...[
+            _buildLargeButton('Oferty', logic.onShowCateringOffers),
+            _buildLargeButton('Zamówienia', logic.onShowCateringOrders),
+          ]
+        ]),
+      ),
     );
   }
 
-  Widget _buildButton(String title, String action) {
-    return ElevatedButton(
-      onPressed: () => logic.onButtonPress(action),
-      child: Text(title),
+  Widget _buildLargeButton(String title, VoidCallback onPressed) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      width: 250,
+      height: 60,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          textStyle: TextStyle(fontSize: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Text(title),
+      ),
     );
   }
 }
