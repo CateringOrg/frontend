@@ -67,10 +67,10 @@ class MainView extends StatelessWidget {
                       elevation: 5,
                     ),
                     onPressed: () {
-                      mainController.onShowAddMealFormClicked(context);
+                      mainController.onShowListOfCompanyOffersClicked(context);
                     },
                     child: const Text(
-                      'Dodaj posiłek',
+                      'Moje oferty (firma cateringowa)',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

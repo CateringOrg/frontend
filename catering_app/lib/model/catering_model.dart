@@ -95,7 +95,7 @@ class CateringModel {
           "id": '12fcc746-b380-4f0b-a34c-6b110a615a94',
           "address": addCateringCompany.address,
           "name": addCateringCompany.name,
-          "nip": '5250005834'
+          "nip": addCateringCompany.nip,
         }),
       );
       if (response.statusCode == 200 || response.statusCode == 204) {
