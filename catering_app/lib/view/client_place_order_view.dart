@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 import '../assets/colors.dart';
 
 
@@ -11,9 +11,6 @@ class ClientOrderFormView extends StatefulWidget {
 }
 
 class _ClientOrderFormViewState extends State<ClientOrderFormView> {
-  final nameController = TextEditingController();
-  final surnameController = TextEditingController();
-  final telephoneController = TextEditingController();
   final emailController = TextEditingController();
   final firstCodeController = TextEditingController();
   final secondCodeController = TextEditingController();
@@ -33,9 +30,6 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
 
   @override
   void dispose(){
-    nameController.dispose();
-    surnameController.dispose();
-    telephoneController.dispose();
     emailController.dispose();
     fifthCodeController.dispose();
     secondCodeController.dispose();
@@ -92,62 +86,12 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(
-                    flex:1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const Text("Imię"),
-                        const SizedBox(height: 8),
-                        TextField(
-                          controller: nameController,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: '',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Flexible(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const Text("Nazwisko"),
-                        TextField(
-                          controller: surnameController,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: '',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+
                 ],
               ),
               const SizedBox(height: 15),
               Row(
                 children: [
-                  Flexible(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const Text("Telefon"),
-                        TextField(
-                          controller: telephoneController,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: '',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 20),
                   Flexible(
                     flex:1,
                     child: Column(
@@ -156,6 +100,23 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                         const Text("e-mail"),
                         TextField(
                           controller: emailController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: '',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 20,),
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const Text("Data dowozu"),
+                        TextField(
+                          controller: addressController,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: '',
@@ -173,12 +134,18 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      const SizedBox(height: 33),
                       const Text("Kod pocztowy"),
                       Row(
                         children: [
                           SizedBox(
                             width: 40,
                             child: TextField(
+                              maxLength: 1,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(1),
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               controller: firstCodeController,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -192,6 +159,11 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                           SizedBox(
                             width: 40,
                             child: TextField(
+                              maxLength: 1,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(1),
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               controller: secondCodeController,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -200,12 +172,16 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                             ),
                           ),
 
-                          Text("-",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          SizedBox(width: 25,),
 
                           SizedBox(
                             width: 40,
                             child: TextField(
+                              maxLength: 1,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(1),
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               controller: thirdCodeController,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -217,6 +193,11 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                           SizedBox(
                             width: 40,
                             child: TextField(
+                              maxLength: 1,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(1),
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               controller: fourthCodeController,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -228,6 +209,11 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                           SizedBox(
                             width:40,
                             child: TextField(
+                              maxLength: 1,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(1),
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               controller: fifthCodeController,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -282,22 +268,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                 ],
               ),
               const SizedBox(height: 15),
-              Flexible(
-                flex: 1,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text("Data dowozu"),
-                    TextField(
-                      controller: addressController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: '',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+
 
               Flexible(
                 flex: 2,

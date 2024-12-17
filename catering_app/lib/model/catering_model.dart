@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:catering_app/data/add_order_data.dart';
 import 'package:http/http.dart' as http;
 import 'package:catering_app/data/meal_data.dart';
 import 'package:catering_app/data/add_meal_data.dart';
@@ -149,6 +150,40 @@ class CateringModel {
     }
   }
 
+  Future<Map<String, dynamic>> addOrder(AddOrderDTO addOrderData) async {
+    try {
+      final url = Uri.parse("$baseUrl/orders/create");
+      final response = await http.post(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          //"Authorization": "Bearer YOUR_AUTH_TOKEN"
+        },
+        body: jsonEncode({
+          "clientLogin": addOrderData.clientLogin,
+          "deliveryAddress": addOrderData.deliveryAddress,
+          "deliveryMethod": addOrderData.deliveryMethod,
+          "mealIds": addOrderData.mealIds,
+          "deliveryTime": addOrderData.deliveryTime,
+        }),
+      );
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        return {"success": true};
+      } else {
+        final errorBody = jsonDecode(response.body);
+        return {
+          "success": false,
+          "message": errorBody['message'] ?? 'Zaszedł bląd. Spróbuj później.'
+        };
+      }
+    } catch (e) {
+      return {
+        "success": false,
+        "message": "Nie udało się połączyć z serwerem."
+      };
+    }
+  }
+
   Future<Meal> getMealById(int mealId) async {
     return _getMeal('$baseUrl/offers/$mealId');
   }
@@ -243,6 +278,8 @@ class CateringModel {
           'Failed to load meal: ${response.statusCode}. Response: ${response.body}');
     }
   }
+
+
 
   Future<http.Response> _postJson(Uri uri, Map<String, dynamic> data) async {
     print("POST $uri with data: $data");
