@@ -4,7 +4,6 @@ import 'package:catering_app/model/company_api_proxy.dart';
 import '../data/meal_data.dart';
 
 abstract class ICateringCompanyAddMealLogic {
-  void onShowAddMealFormClicked();
   void onSaveDataClicked(AddMealDTO data);
 }
 

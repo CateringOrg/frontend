@@ -12,11 +12,6 @@ class CateringCompanyAddMealLogic implements ICateringCompanyAddMealLogic {
       : ui = CateringCompanyOffersUI(context);
 
   @override
-  void onShowAddMealFormClicked() {
-    ui.showAddMealForm();
-  }
-
-  @override
   void onSaveDataClicked(AddMealDTO data) async {
     final result = await companyAPI.addMeal(data);
 
