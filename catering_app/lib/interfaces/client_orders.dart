@@ -7,6 +7,7 @@ abstract class IClientOrderingUI{
   void navigateBack();
   void showSuccessMessage();
   void showErrorMessage(String? message);
+  void onClientPaymentClicked();
 }
 
 abstract class IClientOrderingLogic {
@@ -15,6 +16,7 @@ abstract class IClientOrderingLogic {
 
 abstract class IClientAddOrderLogic{
   void onSaveDataClicked(AddOrderDTO data);
+  void showClientPaymentView(BuildContext context);
 }
 
 abstract class IClientAPI{

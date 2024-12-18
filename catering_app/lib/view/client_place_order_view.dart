@@ -36,7 +36,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
       deliveryAddress: '',
       deliveryTime:  '',
       deliveryMethod: "Delivery",
-      mealIds: [], // brakuje funkcji geyCart()
+      mealIds: [], // brakuje funkcji getCart()
     );
 
     emailController.addListener((){
@@ -96,12 +96,14 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
         errors.add("Adres nie może byc pusty.");
       }
 
-      if (errors.isNotEmpty) {
-        generalError = errors.join("\n");
-        return;
-      }
+      //TODO dokończyć onsavedataclicked(ma się dodać przy płatności)
+      // if (errors.isNotEmpty) {
+      //   generalError = errors.join("\n");
+      //   return;
+      // }
 
-      logic.onSaveDataClicked(formData);
+      //logic.onSaveDataClicked(formData);
+      logic.showClientPaymentView(context);
     });
   }
 
