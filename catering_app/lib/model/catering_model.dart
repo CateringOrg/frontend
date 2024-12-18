@@ -163,7 +163,7 @@ class CateringModel {
           "clientLogin": addOrderData.clientLogin,
           "deliveryAddress": addOrderData.deliveryAddress,
           "deliveryMethod": addOrderData.deliveryMethod,
-          "mealIds": addOrderData.mealIds,
+          "mealIds": [addOrderData.mealIds],
           "deliveryTime": addOrderData.deliveryTime,
         }),
       );

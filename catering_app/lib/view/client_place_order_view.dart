@@ -1,3 +1,5 @@
+import 'package:catering_app/controller/add_order_logic.dart';
+import 'package:catering_app/data/add_order_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../assets/colors.dart';
@@ -11,6 +13,8 @@ class ClientOrderFormView extends StatefulWidget {
 }
 
 class _ClientOrderFormViewState extends State<ClientOrderFormView> {
+  late final AddOrderDTO formData;
+
   final emailController = TextEditingController();
   final firstCodeController = TextEditingController();
   final secondCodeController = TextEditingController();
@@ -26,6 +30,24 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
   @override
   void initState() {
     super.initState();
+
+    formData = AddOrderDTO(
+      clientLogin:  '',
+      deliveryAddress: '',
+      deliveryTime:  '',
+      deliveryMethod: "Delivery",
+      mealIds: [], // brakuje funkcji geyCart()
+    );
+
+    emailController.addListener((){
+      formData.clientLogin = emailController.text;
+    });
+    addressController.addListener((){
+      formData.deliveryAddress = getAddress();
+    });
+    dateController.addListener((){
+      formData.deliveryTime = dateController.text+"T10:00:00";
+    });
   }
 
   @override
@@ -43,12 +65,36 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
     super.dispose();
   }
 
-  /*void validateAndSave(BuildContext context) {
-    final logic = CateringCompanyOffersLogic(context);
+  String getAddress(){
+    String address = firstCodeController.text+
+        secondCodeController.text+
+        '-'+
+        thirdCodeController.text+
+        fourthCodeController.text+
+        fifthCodeController.text+
+        " " +
+        cityController.text+
+        " " +
+        addressController.text;
+    return address;
+  }
+
+  void validateAndSave(BuildContext context) {
+    final logic = ClientAddOrderLogic(context);
     setState(() {
       generalError = null;
 
-      final errors = logic.validateMealData(formData);
+      final errors = <String>[];
+
+      if (formData.clientLogin.isEmpty){
+        errors.add("Email nie może być pusty.");
+      }
+      if (formData.deliveryTime.isEmpty){
+        errors.add("Data nie może być pusta.");
+      }
+      if (formData.deliveryAddress.isEmpty){
+        errors.add("Adres nie może byc pusty.");
+      }
 
       if (errors.isNotEmpty) {
         generalError = errors.join("\n");
@@ -57,7 +103,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
 
       logic.onSaveDataClicked(formData);
     });
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -296,9 +342,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-
-                        },
+                        onPressed: () => validateAndSave(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.fontEmphasis,
                           padding: const EdgeInsets.symmetric(vertical: 20.0),
