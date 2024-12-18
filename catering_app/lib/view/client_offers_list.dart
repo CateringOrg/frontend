@@ -18,21 +18,20 @@ class _ClientOffersListViewState extends State<ClientOffersListView> {
   late final ClientOffersLogic clientOffersLogic;
   late final ClientCartUI clientCartUI;
 
-@override
-void initState() {
-  super.initState();
-  
-  final cartData = CartData();
+  @override
+  void initState() {
+    super.initState();
 
-  clientCartUI = ClientCartUI(context, null);
+    final cartData = CartData();
 
-  clientCartLogic = ClientCartLogic(clientCartUI, cartData);
+    clientCartUI = ClientCartUI(context, null);
 
-  clientCartUI.logic = clientCartLogic;
+    clientCartLogic = ClientCartLogic(clientCartUI, cartData);
 
-  clientOffersLogic = ClientOffersLogic();
-}
+    clientCartUI.logic = clientCartLogic;
 
+    clientOffersLogic = ClientOffersLogic();
+  }
 
   @override
   Widget build(BuildContext context) {
