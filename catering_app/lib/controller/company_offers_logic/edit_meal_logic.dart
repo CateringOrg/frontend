@@ -13,14 +13,12 @@ class CateringCompanyEditMealLogic implements ICateringCompanyEditMealLogic {
 
   @override
   void onSaveDataClicked(String mealId, AddMealDTO data) async {
-    // final result = await companyAPI.updateMeal(mealId, data);
-    // if (result.success) {
-    //   ui.showSuccessMessage();
-    //   ui.navigateBack();
-    // } else {
-    //   ui.showErrorMessage(result.error);
-    // }
-
-    ui.showSuccessMessage();
+    final result = await companyAPI.updateMeal(mealId, data);
+    if (result.success) {
+      ui.showSuccessMessage();
+      ui.navigateBack();
+    } else {
+      ui.showErrorMessage(result.error);
+    }
   }
 }

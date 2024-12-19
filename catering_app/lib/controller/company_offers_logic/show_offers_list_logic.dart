@@ -30,14 +30,11 @@ class CateringCompanyShowOffersListLogic
 
   @override
   void onShowUpdateMealFormClicked(String id) async {
-    Meal meal = Meal(
-      id: id,
-      name: "Sushi Platter",
-      description: "Sushi Platter",
-      price: 29.99,
-      photoUrls:
-          "https://www.feastingathome.com/wp-content/uploads/2024/01/ahi-poke-5.jpg",
-    );
-    ui.showEditMealForm(meal);
+    final result = await companyAPI.getMeal(id);
+    if (result.success) {
+      ui.showEditMealForm(result.data);
+    } else {
+      ui.showErrorMessage(result.error);
+    }
   }
 }
