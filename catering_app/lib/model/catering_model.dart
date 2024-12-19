@@ -7,15 +7,8 @@ import 'package:catering_app/data/add_meal_data.dart';
 import 'package:catering_app/data/catering_registration_data.dart';
 import 'package:catering_app/data/registration_data.dart';
 import 'package:catering_app/data/login_data.dart';
-
-enum UserRole { CLIENT, CATERING_COMPANY, ADMIN, NONE }
-
-Map<String, UserRole> userRoleMap = {
-  "": UserRole.NONE,
-  "ADMIN": UserRole.ADMIN,
-  "CATERING": UserRole.CATERING_COMPANY,
-  "CLIENT": UserRole.CLIENT
-};
+import 'package:catering_app/data/user_role.dart';
+import 'package:catering_app/data/user_data.dart';
 
 class CateringModel {
   final String baseUrl = "http://localhost:8080";
@@ -73,7 +66,7 @@ class CateringModel {
         // Zapisanie do cookies
         saveToCookies('authToken', authToken!);
         saveToCookies('username', username!);
-        saveToCookies('role', role.toString());
+        saveToCookies('role', userRoleToStringMap[role]!);
 
         print("Logged as $username ! Role: $role Token: $authToken");
         return {"success": true};
@@ -90,6 +83,12 @@ class CateringModel {
         "message": "Nie udało się połączyć z serwerem."
       };
     }
+  }
+
+  void logout() {
+    saveToCookies('authToken', '');
+    saveToCookies('username', '');
+    saveToCookies('role', '');
   }
 
   Future<List<Meal>> getAllMeals() async {
@@ -471,5 +470,13 @@ class CateringModel {
       }
     }
     return null;
+  }
+
+  UserDTO getLoggedUser() {
+    String username = readFromCookies('username') ?? "";
+    String authToken = readFromCookies('authToken') ?? "";
+    UserRole role = userRoleMap[readFromCookies('role') ?? ""] ?? UserRole.NONE;
+
+    return UserDTO(username: username, token: authToken, role: role);
   }
 }

@@ -1,7 +1,7 @@
 import 'package:catering_app/controller/client_cart_controller.dart';
 import 'package:catering_app/controller/client_offers_controller.dart';
 import 'package:catering_app/data/cart_data.dart';
-import 'package:catering_app/data/user_roles.dart';
+import 'package:catering_app/data/user_role.dart';
 import 'package:catering_app/interfaces/main_menu_logic.dart';
 import 'package:catering_app/interfaces/main_menu_ui.dart';
 import 'package:catering_app/view/client_cart_ui.dart';

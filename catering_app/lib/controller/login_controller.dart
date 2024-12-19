@@ -4,6 +4,7 @@ import 'package:catering_app/data/login_data.dart';
 import 'package:catering_app/interfaces/login.dart';
 import 'package:catering_app/model/catering_model.dart';
 import 'package:catering_app/view/client_offers_list.dart';
+import 'package:catering_app/data/user_data.dart';
 
 class LoginLogic extends ILoginLogic {
   final CateringModel model = CateringModel();
@@ -14,8 +15,11 @@ class LoginLogic extends ILoginLogic {
     final Map<String, dynamic> result = await model.login(data);
 
     if (result["success"]) {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const ClientOffersListView()),
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+            builder: (context) => MainView(
+                  user: model.getLoggedUser(),
+                )),
       );
     } else {
       setError(result["message"]);

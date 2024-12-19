@@ -19,13 +19,13 @@ class CateringCompanyShowOffersListLogic
 
   @override
   void onShowListOfOffersClicked() async {
-    // final result = await companyAPI
-    //     .getListOfMealsByCompanyId('12fcc746-b380-4f0b-a34c-6b110a615a94');
-    // if (result.success) {
-    //   ui.showListOfOffers(result.data);
-    // } else {
-    //   ui.showErrorMessage(result.error);
-    // }
+    final result = await companyAPI
+        .getListOfMealsByCompanyId('12fcc746-b380-4f0b-a34c-6b110a615a94');
+    if (result.success) {
+      ui.showListOfOffers(result.data);
+    } else {
+      ui.showErrorMessage(result.error);
+    }
 
     List<Meal> dummyMeals = [
       Meal(

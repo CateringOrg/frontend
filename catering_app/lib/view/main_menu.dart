@@ -1,4 +1,4 @@
-import 'package:catering_app/data/user_roles.dart';
+import 'package:catering_app/data/user_role.dart';
 import 'package:catering_app/interfaces/main_menu_logic.dart';
 import 'package:catering_app/interfaces/main_menu_ui.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +11,14 @@ class MainMenuUI implements IMainMenuUI {
       appBar: AppBar(title: Text('Menu główne - ${role.name}')),
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          if (role == UserRole.Client) ...[
+          if (role == UserRole.CLIENT) ...[
             _buildLargeButton('Wszystkie oferty', logic.onShowClientOffers),
             _buildLargeButton('Zamówienia', logic.onShowClientOrders),
             _buildLargeButton('Koszyk', logic.onShowClientCart),
-          ] else if (role == UserRole.Manager) ...[
+          ] else if (role == UserRole.ADMIN) ...[
             _buildLargeButton('Firmy kateringowe', logic.onShowCateringFirms),
             _buildLargeButton('Zamówienia', logic.onShowManagerOrders),
-          ] else if (role == UserRole.CateringCompany) ...[
+          ] else if (role == UserRole.CATERING_COMPANY) ...[
             _buildLargeButton('Oferty', logic.onShowCateringOffers),
             _buildLargeButton('Zamówienia', logic.onShowCateringOrders),
           ]

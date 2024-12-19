@@ -3,6 +3,7 @@ import 'package:catering_app/view/main_view.dart';
 import 'package:catering_app/data/registration_data.dart';
 import 'package:catering_app/interfaces/registration.dart';
 import 'package:catering_app/model/catering_model.dart';
+import 'package:catering_app/data/user_data.dart';
 
 class RegistrationLogic extends IRegistrationLogic {
   final CateringModel model = CateringModel();
@@ -14,7 +15,8 @@ class RegistrationLogic extends IRegistrationLogic {
 
     if (result["success"]) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const MainView()),
+        MaterialPageRoute(
+            builder: (context) => MainView(user: UserDTO.empty())),
       );
     } else {
       setError(result["message"]);

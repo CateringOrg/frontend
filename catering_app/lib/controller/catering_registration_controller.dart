@@ -1,3 +1,4 @@
+import 'package:catering_app/data/user_data.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_app/view/main_view.dart';
 import 'package:catering_app/data/catering_registration_data.dart';
@@ -15,7 +16,8 @@ class CateringRegistrationLogic extends ICateringRegistrationLogic {
 
     if (result["success"]) {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const MainView()),
+        MaterialPageRoute(
+            builder: (context) => MainView(user: model.getLoggedUser())),
       );
     } else {
       setError(result["message"]);
