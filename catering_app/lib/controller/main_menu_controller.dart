@@ -1,7 +1,10 @@
 import 'package:catering_app/controller/client_cart_controller.dart';
 import 'package:catering_app/controller/client_offers_controller.dart';
+import 'package:catering_app/controller/company_offers_logic/show_offers_list_logic.dart';
 import 'package:catering_app/data/cart_data.dart';
 import 'package:catering_app/data/user_role.dart';
+import 'package:catering_app/interfaces/client_offers.dart';
+import 'package:catering_app/interfaces/company_offers.dart';
 import 'package:catering_app/interfaces/main_menu_logic.dart';
 import 'package:catering_app/interfaces/main_menu_ui.dart';
 import 'package:catering_app/view/client_cart_ui.dart';
@@ -27,7 +30,8 @@ class MainMenuLogic implements IMainMenuLogic {
 
   @override
   void onShowClientOffers() {
-    ClientOffersLogic().showClientOffersPage(context);
+    final IClientOffersLogic clientOffersLogic = ClientOffersLogic();
+    clientOffersLogic.showClientOffersPage(context);
   }
 
   @override
@@ -50,12 +54,14 @@ class MainMenuLogic implements IMainMenuLogic {
   void onShowCateringFirms() {}
 
   @override
-  void onShowManagerOrders() {
-    //ManagerOrdersLogic(context).showManagerOrdersPage();
-  }
+  void onShowManagerOrders() {}
 
   @override
-  void onShowCateringOffers() {}
+  void onShowCateringOffers() {
+    final ICateringCompanyShowOffersListLogic companyOffersLogic =
+        CateringCompanyShowOffersListLogic(context);
+    companyOffersLogic.onShowListOfOffersClicked();
+  }
 
   @override
   void onShowCateringOrders() {}
