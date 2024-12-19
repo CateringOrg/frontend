@@ -174,26 +174,26 @@ class AppWidgetsThemes {
 
   static ButtonStyle mainButtonStyle = ButtonStyle(
     backgroundColor:
-        MaterialStateProperty.all<Color>(AppWidgetsThemes.mainButtonColor),
-    foregroundColor: MaterialStateProperty.all<Color>(AppColor.primary),
-    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(
+        WidgetStateProperty.all<Color>(AppWidgetsThemes.mainButtonColor),
+    foregroundColor: WidgetStateProperty.all<Color>(AppColor.primary),
+    shape:
+        WidgetStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0), // TODO replace with const
     )),
-    textStyle: MaterialStateProperty.all<TextStyle>(AppTextThemes.button),
+    textStyle: WidgetStateProperty.all<TextStyle>(AppTextThemes.button),
   );
 
   static ButtonStyle cancelButtonStyle = ButtonStyle(
     backgroundColor:
-        MaterialStateProperty.all<Color>(AppColor.secondaryBackground),
-    foregroundColor: MaterialStateProperty.all<Color>(AppColor.secondary),
-    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-        RoundedRectangleBorder(
+        WidgetStateProperty.all<Color>(AppColor.secondaryBackground),
+    foregroundColor: WidgetStateProperty.all<Color>(AppColor.secondary),
+    shape:
+        WidgetStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0),
       side: const BorderSide(color: Colors.red),
       // TODO replace with const
     )),
-    textStyle: MaterialStateProperty.all<TextStyle>(AppTextThemes.bodyError),
+    textStyle: WidgetStateProperty.all<TextStyle>(AppTextThemes.bodyError),
   );
 
   static ElevatedButtonThemeData mainElevatedButtonTheme =

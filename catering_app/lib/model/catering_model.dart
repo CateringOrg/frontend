@@ -1,13 +1,95 @@
 import 'dart:convert';
+import 'package:universal_html/html.dart' as html;
 import 'package:catering_app/data/add_order_data.dart';
 import 'package:http/http.dart' as http;
 import 'package:catering_app/data/meal_data.dart';
 import 'package:catering_app/data/add_meal_data.dart';
 import 'package:catering_app/data/catering_registration_data.dart';
+import 'package:catering_app/data/registration_data.dart';
+import 'package:catering_app/data/login_data.dart';
+import 'package:catering_app/data/user_role.dart';
+import 'package:catering_app/data/user_data.dart';
 
 class CateringModel {
   final String baseUrl = "http://localhost:8080";
-  //final String? authToken = Auth.instance.accessToken; TODO are we using auth tokens?
+  String? authToken = '';
+  UserRole? role = UserRole.NONE;
+  String? username = '';
+
+  Future<Map<String, dynamic>> register(
+      RegistrationDTO registrationData) async {
+    try {
+      final url = Uri.parse("$baseUrl/auth/register");
+      final response = await http.post(
+        url,
+        headers: _headers(contentType: true),
+        body: jsonEncode({
+          "login": registrationData.username,
+          "password": registrationData.password,
+        }),
+      );
+      if (_responseOK(response)) {
+        return {"success": true};
+      } else {
+        final errorBody = jsonDecode(response.body);
+        return {
+          "success": false,
+          "message": errorBody['message'] ?? 'Nieznany bląd. Spróbuj później.'
+        };
+      }
+    } catch (e) {
+      return {
+        "success": false,
+        "message": "Nie udało się połączyć z serwerem."
+      };
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> login(LoginDTO loginData) async {
+    try {
+      final url = Uri.parse("$baseUrl/auth/login");
+      final response = await http.post(
+        url,
+        headers: _headers(contentType: true),
+        body: jsonEncode({
+          "login": loginData.username,
+          "password": loginData.password,
+        }),
+      );
+      if (_responseOK(response)) {
+        authToken = jsonDecode(response.body)['token'];
+        Map<String, dynamic> jwt_decoded = parseJwt(authToken!);
+        username = jwt_decoded['sub'];
+        role = userRoleMap[jwt_decoded['role']];
+
+        // Zapisanie do cookies
+        saveToCookies('authToken', authToken!);
+        saveToCookies('username', username!);
+        saveToCookies('role', userRoleToStringMap[role]!);
+
+        print("Logged as $username ! Role: $role Token: $authToken");
+        return {"success": true};
+      } else {
+        final errorBody = jsonDecode(response.body);
+        return {
+          "success": false,
+          "message": errorBody['message'] ?? 'Nieznany błąd. Spróbuj później.'
+        };
+      }
+    } catch (e) {
+      return {
+        "success": false,
+        "message": "Nie udało się połączyć z serwerem."
+      };
+    }
+  }
+
+  void logout() {
+    saveToCookies('authToken', '');
+    saveToCookies('username', '');
+    saveToCookies('role', '');
+  }
 
   Future<List<Meal>> getAllMeals() async {
     return _postAllMeals('$baseUrl/offers/search/meals');
@@ -26,7 +108,7 @@ class CateringModel {
       print("Response Status: ${response.statusCode}");
       print("Response Body: ${response.body}");
 
-      if (response.statusCode == 200) {
+      if (_responseOK(response)) {
         List<dynamic> mealJsonList = jsonDecode(response.body);
 
         return mealJsonList.map((json) {
@@ -56,16 +138,13 @@ class CateringModel {
       final url = Uri.parse("$baseUrl/orders"); //TODO endpoint
       final response = await http.post(
         url,
-        headers: {
-          "Content-Type": "application/json",
-          //"Authorization": "Bearer YOUR_AUTH_TOKEN"
-        },
+        headers: _headersForAll(),
         body: jsonEncode({
           "mealId": mealId,
           "userId": userId,
         }),
       );
-      if (response.statusCode == 200) {
+      if (_responseOK(response)) {
         return {"success": true};
       } else {
         final errorBody = jsonDecode(response.body);
@@ -88,18 +167,15 @@ class CateringModel {
       final url = Uri.parse("$baseUrl/catering-companies");
       final response = await http.post(
         url,
-        headers: {
-          "Content-Type": "application/json",
-          //"Authorization": "Bearer YOUR_AUTH_TOKEN"
-        },
+        headers: _headersForAll(contentType: true),
         body: jsonEncode({
-          "id": '12fcc746-b380-4f0b-a34c-6b110a615a94',
+          // "id": '12fcc746-b380-4f0b-a34c-6b110a615a94',
           "address": addCateringCompany.address,
           "name": addCateringCompany.name,
           "nip": addCateringCompany.nip,
         }),
       );
-      if (response.statusCode == 200 || response.statusCode == 204) {
+      if (_responseOK(response) || response.statusCode == 204) {
         return {"success": true};
       } else {
         final errorBody = jsonDecode(response.body);
@@ -119,21 +195,18 @@ class CateringModel {
 
   Future<Map<String, dynamic>> addCompanyMeal(AddMealDTO addMealData) async {
     try {
-      final cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
+      const cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
       final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals");
       final response = await http.post(
         url,
-        headers: {
-          "Content-Type": "application/json",
-          //"Authorization": "Bearer YOUR_AUTH_TOKEN"
-        },
+        headers: _headersForAll(),
         body: jsonEncode({
           "description": addMealData.description,
           "price": double.tryParse(addMealData.price),
           "photoUrls": [addMealData.photoUrl],
         }),
       );
-      if (response.statusCode == 200 || response.statusCode == 204) {
+      if (_responseOK(response) || response.statusCode == 204) {
         return {"success": true};
       } else {
         final errorBody = jsonDecode(response.body);
@@ -155,10 +228,7 @@ class CateringModel {
       final url = Uri.parse("$baseUrl/orders/create");
       final response = await http.post(
         url,
-        headers: {
-          "Content-Type": "application/json",
-          //"Authorization": "Bearer YOUR_AUTH_TOKEN"
-        },
+        headers: _headersForAll(),
         body: jsonEncode({
           "clientLogin": addOrderData.clientLogin,
           "deliveryAddress": addOrderData.deliveryAddress,
@@ -167,7 +237,7 @@ class CateringModel {
           "deliveryTime": addOrderData.deliveryTime,
         }),
       );
-      if (response.statusCode == 200 || response.statusCode == 204) {
+      if (_responseOK(response) || response.statusCode == 204) {
         return {"success": true};
       } else {
         final errorBody = jsonDecode(response.body);
@@ -217,7 +287,7 @@ class CateringModel {
   Future<bool> checkIfMealIsLiked(int mealId, int userId) async {
     Uri uri = Uri.parse('$baseUrl/offers/$mealId/isLikedByUser?userId=$userId');
     print("GET $uri");
-    final response = await http.get(uri, headers: _headers());
+    final response = await http.get(uri, headers: _headersForAll());
     print("Response Status: ${response.statusCode}");
     print("Response Body: ${response.body}");
     bool isLiked = jsonDecode(response.body);
@@ -256,7 +326,7 @@ class CateringModel {
     final response = await http.get(uri, headers: _headersForAll());
     print("Response Status: ${response.statusCode}");
     print("Response Body: ${response.body}");
-    if (response.statusCode == 200) {
+    if (_responseOK(response)) {
       List<dynamic> mealJsonList = jsonDecode(response.body);
       return mealJsonList.map((json) => Meal.fromJson(json)).toList();
     } else {
@@ -271,7 +341,7 @@ class CateringModel {
     final response = await http.get(uri, headers: _headersForAll());
     print("Response Status: ${response.statusCode}");
     print("Response Body: ${response.body}");
-    if (response.statusCode == 200) {
+    if (_responseOK(response)) {
       return Meal.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(
@@ -279,12 +349,10 @@ class CateringModel {
     }
   }
 
-
-
   Future<http.Response> _postJson(Uri uri, Map<String, dynamic> data) async {
     print("POST $uri with data: $data");
-    final response = await http.post(uri,
-        headers: _headers(contentType: true), body: jsonEncode(data));
+    final response =
+        await http.post(uri, headers: _headersForAll(), body: jsonEncode(data));
     print("Response Status: ${response.statusCode}");
     print("Response Body: ${response.body}");
     if (response.statusCode >= 400) {
@@ -296,8 +364,8 @@ class CateringModel {
 
   Future<http.Response> _putJson(Uri uri, Map<String, dynamic> data) async {
     print("PUT $uri with data: $data");
-    final response = await http.put(uri,
-        headers: _headers(contentType: true), body: jsonEncode(data));
+    final response =
+        await http.put(uri, headers: _headersForAll(), body: jsonEncode(data));
     print("Response Status: ${response.statusCode}");
     print("Response Body: ${response.body}");
     if (response.statusCode >= 400) {
@@ -309,7 +377,7 @@ class CateringModel {
 
   Future<http.Response> _delete(Uri uri) async {
     print("DELETE $uri");
-    final response = await http.delete(uri, headers: _headers());
+    final response = await http.delete(uri, headers: _headersForAll());
     print("Response Status: ${response.statusCode}");
     print("Response Body: ${response.body}");
     if (response.statusCode >= 400) {
@@ -332,13 +400,83 @@ class CateringModel {
   }
 
   Map<String, String> _headersForAll({bool contentType = false}) {
+    authToken = readFromCookies('authToken');
+    username = readFromCookies('username');
+    role = userRoleMap[readFromCookies('role') ?? ""] ?? UserRole.NONE;
+
+    print("Token from cookies: $authToken");
+
+    final String authBearer = 'Bearer $authToken';
     final headers = {
       'accept': 'application/json',
+      'Authorization': authBearer,
+      'Access-Control-Allow-Headers': 'Authorization'
     };
     if (contentType) {
       headers['Content-Type'] = 'application/json';
     }
     print(headers);
     return headers;
+  }
+
+  bool _responseOK(http.Response response) {
+    return response.statusCode >= 200 && response.statusCode < 300;
+  }
+
+  Map<String, dynamic> parseJwt(String token) {
+    final parts = token.split('.');
+    if (parts.length != 3) {
+      throw Exception('invalid token');
+    }
+
+    final payload = _decodeBase64(parts[1]);
+    final payloadMap = json.decode(payload);
+    if (payloadMap is! Map<String, dynamic>) {
+      throw Exception('invalid payload');
+    }
+
+    return payloadMap;
+  }
+
+  String _decodeBase64(String str) {
+    String output = str.replaceAll('-', '+').replaceAll('_', '/');
+
+    switch (output.length % 4) {
+      case 0:
+        break;
+      case 2:
+        output += '==';
+        break;
+      case 3:
+        output += '=';
+        break;
+      default:
+        throw Exception('Illegal base64url string!"');
+    }
+
+    return utf8.decode(base64Url.decode(output));
+  }
+
+  void saveToCookies(String key, String value) {
+    html.document.cookie = "$key=$value; path=/;";
+  }
+
+  String? readFromCookies(String key) {
+    final cookies = html.document.cookie?.split("; ") ?? [];
+    for (final cookie in cookies) {
+      final parts = cookie.split("=");
+      if (parts[0] == key) {
+        return parts[1];
+      }
+    }
+    return null;
+  }
+
+  UserDTO getLoggedUser() {
+    String username = readFromCookies('username') ?? "";
+    String authToken = readFromCookies('authToken') ?? "";
+    UserRole role = userRoleMap[readFromCookies('role') ?? ""] ?? UserRole.NONE;
+
+    return UserDTO(username: username, token: authToken, role: role);
   }
 }

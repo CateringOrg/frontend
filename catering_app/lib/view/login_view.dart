@@ -1,24 +1,22 @@
-import 'package:catering_app/controller/catering_registration_controller.dart';
+import 'package:catering_app/controller/login_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:catering_app/data/catering_registration_data.dart';
-import 'package:catering_app/interfaces/catering_registration.dart';
+import 'package:catering_app/data/login_data.dart';
+import 'package:catering_app/interfaces/login.dart';
 import 'package:catering_app/assets/themes.dart';
 
-class CateringRegistrationView extends StatefulWidget {
-  const CateringRegistrationView({super.key});
+class LoginView extends StatefulWidget {
+  const LoginView({super.key});
 
   @override
-  State<CateringRegistrationView> createState() =>
-      _CateringRegistrationViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _CateringRegistrationViewState extends State<CateringRegistrationView> {
+class _LoginViewState extends State<LoginView> {
   String errorInfo = "";
-  late final ICateringRegistrationLogic controller;
+  late final ILoginLogic controller;
 
-  final nameTextController = TextEditingController();
-  final addressTextController = TextEditingController();
-  final nipController = TextEditingController();
+  final usernameTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
 
   void setErrorInfo(String info) {
     setState(() {
@@ -30,14 +28,13 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
   void initState() {
     super.initState();
 
-    controller = CateringRegistrationLogic();
+    controller = LoginLogic();
   }
 
   @override
   void dispose() {
-    nameTextController.dispose();
-    addressTextController.dispose();
-    nipController.dispose();
+    usernameTextController.dispose();
+    passwordTextController.dispose();
     super.dispose();
   }
 
@@ -60,7 +57,7 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
                 textAlign: TextAlign.center,
               ),
               const Text(
-                'Zarejestruj firmę kateringową',
+                'Zaloguj się',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -68,13 +65,13 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const Text("Nazwa"),
+                  const Text("Nazwa użytkownika"),
                   const SizedBox(height: 8),
                   TextField(
-                    controller: nameTextController,
+                    controller: usernameTextController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Firma 123',
+                      hintText: 'użytkownik123',
                     ),
                   ),
                 ],
@@ -83,28 +80,13 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const Text("Adres"),
+                  const Text("Hasło"),
                   const SizedBox(height: 8),
                   TextField(
-                    controller: addressTextController,
+                    controller: passwordTextController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Pl. Politechniki 1, GG, pokój 133',
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text("NIP"),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: nipController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: '5250005834',
+                      hintText: '********',
                     ),
                   ),
                 ],
@@ -122,17 +104,15 @@ class _CateringRegistrationViewState extends State<CateringRegistrationView> {
                   elevation: 5,
                 ),
                 onPressed: () {
-                  controller.onRegisterClicked(
+                  controller.onLoginClicked(
                       context,
                       setErrorInfo,
-                      RegisterCateringDTO(
-                        name: nameTextController.text,
-                        address: addressTextController.text,
-                        nip: nipController.text,
-                      ));
+                      LoginDTO(
+                          username: usernameTextController.text,
+                          password: passwordTextController.text));
                 },
                 child: const Text(
-                  'Zarejestruj',
+                  'Zaloguj',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),

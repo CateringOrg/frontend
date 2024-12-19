@@ -64,7 +64,7 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
 
   @override
   Future<ApiResponse<void>> addMeal(AddMealDTO meal) async {
-    final cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
+    const cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
     final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals");
     final result = await _makeApiCall(() => http.post(
           url,
@@ -119,7 +119,7 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
 
   @override
   Future<ApiResponse<Meal>> getMeal(String id) async {
-    final cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
+    const cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
     final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals/$id");
     final result = await _makeApiCall(() => http.get(
           url,
@@ -147,7 +147,7 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
 
   @override
   Future<ApiResponse<void>> updateMeal(String mealId, AddMealDTO meal) async {
-    final cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
+    const cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
     final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals/$mealId");
     final result = await _makeApiCall(() => http.put(
           url,

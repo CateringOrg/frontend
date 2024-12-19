@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 
 import 'package:catering_app/view/main_view.dart';
 import 'package:catering_app/controller/main_controller.dart';
-import 'package:catering_app/controller/catering_registration_controller.dart';
 import 'package:catering_app/assets/themes.dart';
+
+import 'package:catering_app/data/user_data.dart';
 
 void main() {
   runApp(
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'Catering app',
       theme: AppThemes.light,
       darkTheme: AppThemes.light,
-      home: const MainView(),
+      home: MainView(user: UserDTO.empty()),
     );
   }
 }
