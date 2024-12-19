@@ -12,7 +12,7 @@ import 'package:catering_app/data/user_data.dart';
 import 'package:catering_app/data/payement_data.dart';
 
 class CateringModel {
-  final String baseUrl = "http://localhost:8080";
+  final String baseUrl = "http://localhost:8081";
   String? authToken = '';
   UserRole? role = UserRole.NONE;
   String? username = '';

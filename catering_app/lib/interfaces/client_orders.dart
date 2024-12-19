@@ -16,7 +16,7 @@ abstract class IClientOrderingLogic {
 
 abstract class IClientAddOrderLogic{
   void onSaveDataClicked(AddOrderDTO data);
-  void showClientPaymentView(BuildContext context);
+  void showClientPaymentView();
 }
 
 abstract class IClientAPI{

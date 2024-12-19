@@ -16,15 +16,14 @@ class ClientAddOrderLogic implements IClientAddOrderLogic {
     final result = await clientAPI.addOrder(data);
 
     if (result.success) {
-      ui.showSuccessMessage();
-      ui.navigateBack();
+      showClientPaymentView();
     } else {
       ui.showErrorMessage(result.error);
     }
   }
 
   @override
-  void showClientPaymentView(BuildContext context) {
+  void showClientPaymentView() {
     ui.onClientPaymentClicked();
   }
 }

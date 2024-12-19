@@ -15,7 +15,7 @@ class ApiResponse<T> {
 }
 
 class CateringCompanyAPIProxy implements ICateringCompanyAPI {
-  final String baseUrl = "http://localhost:8080";
+  final String baseUrl = "http://localhost:8081";
   CateringModel cateringModel = CateringModel();
 
   Future<Map<String, dynamic>> _makeApiCall(
