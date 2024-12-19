@@ -14,7 +14,7 @@ class ApiResponse<T> {
 }
 
 class ClientAPIProxy implements IClientAPI {
-  final String baseUrl = "http://localhost:8080";
+  final String baseUrl = "http://localhost:8081";
   final CateringModel cateringModel = CateringModel();
 
   Future<Map<String, dynamic>> _makeApiCall(
@@ -55,6 +55,13 @@ class ClientAPIProxy implements IClientAPI {
           "mealIds": [order.mealIds],
           "deliveryTime": order.deliveryTime,
         })));
+    result.entries.forEach((element) {
+      print(element.key);
+      print(element.value);
+    });
+
+
+
     if (result["success"]) {
       return ApiResponse(success: true);
     } else {
