@@ -51,7 +51,7 @@ class _ClientOffersListViewState extends State<ClientOffersListView> {
       ),
       body: FutureBuilder<List<Meal>>(
         future: clientOffersLogic.fetchOffers(),
-        builder: (context, snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<List<Meal>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {

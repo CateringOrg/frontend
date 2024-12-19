@@ -92,7 +92,8 @@ class CateringModel {
   }
 
   Future<List<Meal>> getAllMeals() async {
-    return _postAllMeals('$baseUrl/offers/search/meals');
+    // return _postAllMeals('$baseUrl/offers/search/meals');
+    return _getMeals('$baseUrl/offers/search/meals');
   }
 
   Future<List<Meal>> _postAllMeals(String url) async {
@@ -328,7 +329,20 @@ class CateringModel {
     print("Response Body: ${response.body}");
     if (_responseOK(response)) {
       List<dynamic> mealJsonList = jsonDecode(response.body);
-      return mealJsonList.map((json) => Meal.fromJson(json)).toList();
+      List<Meal> meals = mealJsonList.map((json) {
+            final List<dynamic> photoUrls = json['photoUrls'] ?? [];
+            final String firstPhotoUrl = photoUrls.isNotEmpty
+                ? photoUrls[0] as String
+                : 'https://png.pngtree.com/png-vector/20190820/ourmid/pngtree-no-image-vector-illustration-isolated-png-image_1694547.jpg';
+
+            return Meal.fromJson({
+              ...json,
+              'photoUrls': firstPhotoUrl,
+            });
+          }).toList() ??
+          List<Meal>.empty();
+
+      return meals;
     } else {
       throw Exception(
           'Failed to load meals: ${response.statusCode}. Response: ${response.body}');

@@ -15,11 +15,10 @@ class Meal {
 
   factory Meal.fromJson(Map<String, dynamic> json) {
     return Meal(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      price: json['price'],
-      photoUrls: json['photoUrls']
-    );
+        id: json['id'],
+        name: json['name'],
+        description: json['description'],
+        price: json['price'],
+        photoUrls: json['photoUrls']);
   }
 }
