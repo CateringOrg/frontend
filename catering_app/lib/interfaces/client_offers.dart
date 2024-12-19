@@ -5,5 +5,4 @@ abstract class IClientOffersLogic {
   void onBackClicked(BuildContext context);
   void showClientOffersPage(BuildContext context);
   Future<List<Meal>> fetchOffers();
-  Future<Map<String, dynamic>> addMealToCart(String mealId, String userId);
 }

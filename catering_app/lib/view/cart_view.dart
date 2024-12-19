@@ -164,7 +164,7 @@ class CartView extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      logic.showClientOrderFormView(context);
+                      logic.showClientOrderFormView(context); // todo
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.fontEmphasis,
@@ -188,8 +188,7 @@ class CartView extends StatelessWidget {
                   width: double.infinity,
                   child: OutlinedButton(
                     onPressed: () {
-                      Navigator.pop(
-                          context);
+                      Navigator.pop(context);
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(

@@ -1,3 +1,6 @@
+import 'package:catering_app/controller/client_payement_controller.dart';
+import 'package:catering_app/data/payement_data.dart';
+import 'package:catering_app/interfaces/client_payement.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +14,16 @@ class ClientPaymentView extends StatefulWidget {
 }
 
 class _ClientPaymentViewState extends State<ClientPaymentView> {
+  late final IClientPayementLogic controller;
+  PayementDTO payementDTO = PayementDTO();
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = ClientPayementLogic();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -82,10 +95,8 @@ class _ClientPaymentViewState extends State<ClientPaymentView> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          //TODO dorób logikę płatności
-                          Navigator.pop(context);
-                        },
+                        onPressed: () =>
+                            controller.onPayClicked(context, payementDTO),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.fontEmphasis,
                           padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -107,9 +118,7 @@ class _ClientPaymentViewState extends State<ClientPaymentView> {
                     SizedBox(
                       width: double.infinity,
                       child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                        onPressed: () => controller.onCancelClicked(context),
                         style: OutlinedButton.styleFrom(
                           side: const BorderSide(
                               color: AppColor.fontEmphasis, width: 2.0),

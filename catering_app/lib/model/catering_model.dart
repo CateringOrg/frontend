@@ -9,6 +9,7 @@ import 'package:catering_app/data/registration_data.dart';
 import 'package:catering_app/data/login_data.dart';
 import 'package:catering_app/data/user_role.dart';
 import 'package:catering_app/data/user_data.dart';
+import 'package:catering_app/data/payement_data.dart';
 
 class CateringModel {
   final String baseUrl = "http://localhost:8080";
@@ -200,7 +201,7 @@ class CateringModel {
       final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals");
       final response = await http.post(
         url,
-        headers: _headersForAll(),
+        headers: _headersForAll(contentType: true),
         body: jsonEncode({
           "description": addMealData.description,
           "price": double.tryParse(addMealData.price),
@@ -229,13 +230,43 @@ class CateringModel {
       final url = Uri.parse("$baseUrl/orders/create");
       final response = await http.post(
         url,
-        headers: _headersForAll(),
+        headers: _headersForAll(contentType: true),
         body: jsonEncode({
           "clientLogin": addOrderData.clientLogin,
           "deliveryAddress": addOrderData.deliveryAddress,
           "deliveryMethod": addOrderData.deliveryMethod,
           "mealIds": [addOrderData.mealIds],
           "deliveryTime": addOrderData.deliveryTime,
+        }),
+      );
+      if (_responseOK(response) || response.statusCode == 204) {
+        return {"success": true, "orderId": jsonDecode(response.body)['id']};
+      } else {
+        final errorBody = jsonDecode(response.body);
+        return {
+          "success": false,
+          "message": errorBody['message'] ?? 'Zaszedł bląd. Spróbuj później.'
+        };
+      }
+    } catch (e) {
+      return {
+        "success": false,
+        "message": "Nie udało się połączyć z serwerem."
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> payForOrder(PayementDTO payementData) async {
+    try {
+      final url = Uri.parse("$baseUrl/payment/payForOrder");
+      final response = await http.post(
+        url,
+        headers: _headersForAll(contentType: true),
+        body: jsonEncode({
+          "orderId": payementData.orderId,
+          "login": payementData.login,
+          "password": payementData.password,
+          "paymentMethod": payementData.paymentMethod,
         }),
       );
       if (_responseOK(response) || response.statusCode == 204) {
