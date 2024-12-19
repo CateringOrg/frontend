@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../assets/colors.dart';
 
-
 class ClientOrderFormView extends StatefulWidget {
   const ClientOrderFormView({super.key});
 
@@ -32,26 +31,26 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
     super.initState();
 
     formData = AddOrderDTO(
-      clientLogin:  '',
+      clientLogin: '',
       deliveryAddress: '',
-      deliveryTime:  '',
+      deliveryTime: '',
       deliveryMethod: "Delivery",
       mealIds: [], // brakuje funkcji getCart()
     );
 
-    emailController.addListener((){
+    emailController.addListener(() {
       formData.clientLogin = emailController.text;
     });
-    addressController.addListener((){
+    addressController.addListener(() {
       formData.deliveryAddress = getAddress();
     });
-    dateController.addListener((){
-      formData.deliveryTime = dateController.text+"T10:00:00";
+    dateController.addListener(() {
+      formData.deliveryTime = "${dateController.text}T10:00:00";
     });
   }
 
   @override
-  void dispose(){
+  void dispose() {
     emailController.dispose();
     fifthCodeController.dispose();
     secondCodeController.dispose();
@@ -65,15 +64,15 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
     super.dispose();
   }
 
-  String getAddress(){
-    String address = firstCodeController.text+
-        secondCodeController.text+
-        '-'+
-        thirdCodeController.text+
-        fourthCodeController.text+
-        fifthCodeController.text+
+  String getAddress() {
+    String address = firstCodeController.text +
+        secondCodeController.text +
+        '-' +
+        thirdCodeController.text +
+        fourthCodeController.text +
+        fifthCodeController.text +
         " " +
-        cityController.text+
+        cityController.text +
         " " +
         addressController.text;
     return address;
@@ -86,13 +85,13 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
 
       final errors = <String>[];
 
-      if (formData.clientLogin.isEmpty){
+      if (formData.clientLogin.isEmpty) {
         errors.add("Email nie może być pusty.");
       }
-      if (formData.deliveryTime.isEmpty){
+      if (formData.deliveryTime.isEmpty) {
         errors.add("Data nie może być pusta.");
       }
-      if (formData.deliveryAddress.isEmpty){
+      if (formData.deliveryAddress.isEmpty) {
         errors.add("Adres nie może byc pusty.");
       }
 
@@ -120,8 +119,8 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Center(
-                child: const Text(
+              const Center(
+                child: Text(
                   "Dane adresowe",
                   style: TextStyle(
                     color: Colors.purple,
@@ -131,17 +130,15 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                 ),
               ),
               const Divider(color: Colors.grey, thickness: 1.0),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-
-                ],
+                children: [],
               ),
               const SizedBox(height: 15),
               Row(
                 children: [
                   Flexible(
-                    flex:1,
+                    flex: 1,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -156,7 +153,9 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                       ],
                     ),
                   ),
-                  SizedBox(width: 20,),
+                  const SizedBox(
+                    width: 20,
+                  ),
                   Flexible(
                     flex: 1,
                     child: Column(
@@ -201,9 +200,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                               ),
                             ),
                           ),
-
                           const SizedBox(width: 5),
-
                           SizedBox(
                             width: 40,
                             child: TextField(
@@ -219,9 +216,9 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                               ),
                             ),
                           ),
-
-                          SizedBox(width: 25,),
-
+                          const SizedBox(
+                            width: 25,
+                          ),
                           SizedBox(
                             width: 40,
                             child: TextField(
@@ -255,7 +252,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                           ),
                           const SizedBox(width: 5),
                           SizedBox(
-                            width:40,
+                            width: 40,
                             child: TextField(
                               maxLength: 1,
                               inputFormatters: [
@@ -269,14 +266,11 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                               ),
                             ),
                           ),
-
-
                         ],
                       ),
                     ],
                   ),
                   const SizedBox(width: 20),
-
                   Flexible(
                     flex: 1,
                     child: Column(
@@ -293,9 +287,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                       ],
                     ),
                   ),
-
                   const SizedBox(width: 20),
-
                   Flexible(
                     flex: 2,
                     child: Column(
@@ -312,12 +304,9 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                       ],
                     ),
                   ),
-
                 ],
               ),
               const SizedBox(height: 15),
-
-
               Flexible(
                 flex: 2,
                 child: Column(
@@ -335,7 +324,6 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                   ],
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
@@ -390,7 +378,6 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                   ],
                 ),
               ),
-
             ],
           ),
         ),

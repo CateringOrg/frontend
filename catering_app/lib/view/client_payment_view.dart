@@ -1,18 +1,16 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../assets/colors.dart';
 
-class ClientPaymentView extends StatefulWidget{
+class ClientPaymentView extends StatefulWidget {
   const ClientPaymentView({super.key});
 
   @override
   State<ClientPaymentView> createState() => _ClientPaymentViewState();
 }
 
-class _ClientPaymentViewState extends State<ClientPaymentView>{
-
+class _ClientPaymentViewState extends State<ClientPaymentView> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -26,8 +24,8 @@ class _ClientPaymentViewState extends State<ClientPaymentView>{
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(
-                child: const Text(
+              const Center(
+                child: Text(
                   "Płatność",
                   style: TextStyle(
                     color: Colors.purple,
@@ -37,8 +35,7 @@ class _ClientPaymentViewState extends State<ClientPaymentView>{
                 ),
               ),
               const Divider(color: Colors.grey, thickness: 1.0),
-
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
@@ -46,7 +43,7 @@ class _ClientPaymentViewState extends State<ClientPaymentView>{
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const Text("Adres"),
+                        Text("Adres"),
                         Text(
                           "Tu będzie adres",
                           style: TextStyle(
@@ -63,7 +60,7 @@ class _ClientPaymentViewState extends State<ClientPaymentView>{
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const Text("Podsumowanie"),
+                        Text("Podsumowanie"),
                         Text(
                           "Tu będzie koszt",
                           style: TextStyle(
@@ -75,11 +72,8 @@ class _ClientPaymentViewState extends State<ClientPaymentView>{
                       ],
                     ),
                   ),
-
                 ],
               ),
-
-
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 200, 0, 50),
                 child: Column(
@@ -88,7 +82,7 @@ class _ClientPaymentViewState extends State<ClientPaymentView>{
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed:(){
+                        onPressed: () {
                           //TODO dorób logikę płatności
                           Navigator.pop(context);
                         },
@@ -137,7 +131,6 @@ class _ClientPaymentViewState extends State<ClientPaymentView>{
                   ],
                 ),
               ),
-
             ],
           ),
         ),

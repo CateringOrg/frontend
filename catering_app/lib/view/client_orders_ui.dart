@@ -1,4 +1,3 @@
-
 import 'package:catering_app/controller/add_order_logic.dart';
 import 'package:catering_app/interfaces/client_orders.dart';
 import 'package:catering_app/view/client_payment_view.dart';
@@ -48,10 +47,8 @@ class ClientOrdersUI implements IClientOrderingUI {
   }
 
   @override
-  void onClientPaymentClicked(){
-    Navigator.push(
-      context,
-        MaterialPageRoute(builder: (context) => ClientPaymentView())
-    );
+  void onClientPaymentClicked() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const ClientPaymentView()));
   }
 }

@@ -26,9 +26,6 @@ class MainController extends ChangeNotifier {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const LoginView()),
     );
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(builder: (context) => const ClientOffersListView()),
-    // );
   }
 
   void onLoginAsClientClicked(BuildContext context) {

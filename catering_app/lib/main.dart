@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'package:catering_app/view/main_view.dart';
 import 'package:catering_app/controller/main_controller.dart';
-import 'package:catering_app/controller/catering_registration_controller.dart';
 import 'package:catering_app/assets/themes.dart';
 
 void main() {

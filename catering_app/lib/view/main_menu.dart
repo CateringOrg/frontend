@@ -29,12 +29,12 @@ class MainMenuUI implements IMainMenuUI {
 
   Widget _buildLargeButton(String title, VoidCallback onPressed) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       width: 250,
       height: 60,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          textStyle: TextStyle(fontSize: 20),
+          textStyle: const TextStyle(fontSize: 20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
