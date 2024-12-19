@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:catering_app/data/add_meal_data.dart';
 import 'package:catering_app/data/meal_data.dart';
 import 'package:catering_app/interfaces/company_offers.dart';
+import 'package:catering_app/model/catering_model.dart';
 import 'package:http/http.dart' as http;
 
 class ApiResponse<T> {
@@ -15,7 +16,7 @@ class ApiResponse<T> {
 
 class CateringCompanyAPIProxy implements ICateringCompanyAPI {
   final String baseUrl = "http://localhost:8080";
-  static String? _token;
+  CateringModel cateringModel = CateringModel();
 
   Future<Map<String, dynamic>> _makeApiCall(
       Future<http.Response> Function() httpRequest) async {
@@ -45,33 +46,13 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
     }
   }
 
-  Future<ApiResponse<void>> login(String login, String password) async {
-    final url = Uri.parse("$baseUrl/auth/login");
-    final result = await _makeApiCall(() => http.post(
-          url,
-          headers: {"Content-Type": "application/json"},
-          body: jsonEncode({"login": login, "password": password}),
-        ));
-
-    if (result["success"]) {
-      final responseBody = jsonDecode(result["responseBody"]);
-      _token = responseBody["token"];
-      return ApiResponse(success: true);
-    } else {
-      return ApiResponse(success: false, error: result["message"]);
-    }
-  }
-
   @override
   Future<ApiResponse<void>> addMeal(AddMealDTO meal) async {
     const cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
     final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals");
     final result = await _makeApiCall(() => http.post(
           url,
-          headers: {
-            "Content-Type": "application/json",
-            if (_token != null) "Authorization": "Bearer $_token",
-          },
+          headers: cateringModel.getHeaders(),
           body: jsonEncode({
             "description": meal.description,
             "price": double.tryParse(meal.price),
@@ -92,10 +73,7 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
     final url = Uri.parse("$baseUrl/offers/$companyId/meals");
     final result = await _makeApiCall(() => http.get(
           url,
-          headers: {
-            "Content-Type": "application/json",
-            if (_token != null) "Authorization": "Bearer $_token",
-          },
+          headers: cateringModel.getHeaders(),
         ));
 
     if (result["success"]) {
@@ -123,10 +101,7 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
     final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals/$id");
     final result = await _makeApiCall(() => http.get(
           url,
-          headers: {
-            "Content-Type": "application/json",
-            if (_token != null) "Authorization": "Bearer $_token",
-          },
+          headers: cateringModel.getHeaders(),
         ));
 
     if (result["success"]) {
@@ -151,10 +126,7 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
     final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals/$mealId");
     final result = await _makeApiCall(() => http.put(
           url,
-          headers: {
-            "Content-Type": "application/json",
-            if (_token != null) "Authorization": "Bearer $_token",
-          },
+          headers: cateringModel.getHeaders(),
           body: jsonEncode({
             "description": meal.description,
             "price": double.tryParse(meal.price),

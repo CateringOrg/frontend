@@ -38,6 +38,10 @@ class _ClientOffersListViewState extends State<ClientOffersListView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Oferta"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_left),
+          onPressed: () => clientOffersLogic.onBackClicked(context),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.shopping_cart),

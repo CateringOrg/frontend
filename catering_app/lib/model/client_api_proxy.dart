@@ -1,8 +1,8 @@
-
 import 'dart:convert';
 
 import 'package:catering_app/data/add_order_data.dart';
 import 'package:catering_app/interfaces/client_orders.dart';
+import 'package:catering_app/model/catering_model.dart';
 import 'package:http/http.dart' as http;
 
 class ApiResponse<T> {
@@ -15,6 +15,7 @@ class ApiResponse<T> {
 
 class ClientAPIProxy implements IClientAPI {
   final String baseUrl = "http://localhost:8080";
+  final CateringModel cateringModel = CateringModel();
 
   Future<Map<String, dynamic>> _makeApiCall(
       Future<http.Response> Function() httpRequest) async {
@@ -46,7 +47,7 @@ class ClientAPIProxy implements IClientAPI {
   Future<ApiResponse<void>> addOrder(AddOrderDTO order) async {
     final url = Uri.parse("$baseUrl/orders/create");
     final result = await _makeApiCall(() => http.post(url,
-        headers: {"Content-Type": "application/json"},
+        headers: cateringModel.getHeaders(),
         body: jsonEncode({
           "clientLogin": order.clientLogin,
           "deliveryAddress": order.deliveryAddress,
@@ -60,5 +61,4 @@ class ClientAPIProxy implements IClientAPI {
       return ApiResponse(success: false, error: result["message"]);
     }
   }
-
 }

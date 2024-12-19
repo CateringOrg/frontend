@@ -35,7 +35,8 @@ class CateringCompanyShowOffersListLogic
       name: "Sushi Platter",
       description: "Sushi Platter",
       price: 29.99,
-      photoUrls: "https://www.feastingathome.com/wp-content/uploads/2024/01/ahi-poke-5.jpg",
+      photoUrls:
+          "https://www.feastingathome.com/wp-content/uploads/2024/01/ahi-poke-5.jpg",
     );
     ui.showEditMealForm(meal);
   }

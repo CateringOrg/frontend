@@ -419,6 +419,10 @@ class CateringModel {
     return headers;
   }
 
+  Map<String, String> getHeaders({bool contentType = false}) {
+    return _headersForAll(contentType: contentType);
+  }
+
   bool _responseOK(http.Response response) {
     return response.statusCode >= 200 && response.statusCode < 300;
   }

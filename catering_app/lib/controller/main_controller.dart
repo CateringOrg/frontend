@@ -41,44 +41,14 @@ class MainController extends ChangeNotifier {
     );
   }
 
-  void onLoginAsClientClicked(BuildContext context) {
-    UserRole role = UserRole.CLIENT;
-    IMainMenuUI mainMenuUI = MainMenuUI();
-    final IMainMenuLogic mainMenuLogic =
-        MainMenuLogic(context: context, role: role, mainMenuUI: mainMenuUI);
-    mainMenuLogic.showMainMenu();
+  void onShowListOfCompanyOffersClicked(BuildContext context) async {
+    final companyOffersLogic = CateringCompanyShowOffersListLogic(context);
+    companyOffersLogic.onShowListOfOffersClicked();
   }
 
-  void onLoginAsCompanyClicked(BuildContext context) {
-    UserRole role = UserRole.CATERING_COMPANY;
-    IMainMenuUI mainMenuUI = MainMenuUI();
-    final IMainMenuLogic mainMenuLogic =
-        MainMenuLogic(context: context, role: role, mainMenuUI: mainMenuUI);
-    mainMenuLogic.showMainMenu();
-  }
-
-  void onLoginAsManagerClicked(BuildContext context) {
-    UserRole role = UserRole.ADMIN;
-    IMainMenuUI mainMenuUI = MainMenuUI();
-    final IMainMenuLogic mainMenuLogic =
-        MainMenuLogic(context: context, role: role, mainMenuUI: mainMenuUI);
-    mainMenuLogic.showMainMenu();
-  }
-
-void onShowListOfCompanyOffersClicked(BuildContext context) async {
-  final companyAPI = CateringCompanyAPIProxy();
-
-  final loginResponse = await companyAPI.login("admin_user", "1234");
-  if (!loginResponse.success) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("Logowanie nie powiodło się: ${loginResponse.error}"),
-        backgroundColor: Colors.red,
-      ),
+  void onShowListOfClientOffersClicked(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const ClientOffersListView()),
     );
-    return;
   }
-  final companyOffersLogic = CateringCompanyShowOffersListLogic(context);
-  companyOffersLogic.onShowListOfOffersClicked();
-}
 }

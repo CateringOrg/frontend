@@ -4,10 +4,19 @@ import 'package:catering_app/model/catering_model.dart';
 import 'package:catering_app/data/meal_data.dart';
 import 'package:catering_app/view/client_offers_list.dart';
 import 'package:flutter/material.dart';
+import 'package:catering_app/view/main_view.dart';
 
 class ClientOffersLogic implements IClientOffersLogic {
   final CateringModel model = CateringModel();
   IClientOffersView? view;
+
+  @override
+  void onBackClicked(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+          builder: (context) => MainView(user: model.getLoggedUser())),
+    );
+  }
 
   @override
   void showClientOffersPage(BuildContext context) {

@@ -26,6 +26,9 @@ class CateringRegistrationLogic extends ICateringRegistrationLogic {
 
   @override
   void onCancelClicked(BuildContext context) {
-    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+          builder: (context) => MainView(user: model.getLoggedUser())),
+    );
   }
 }
