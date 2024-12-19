@@ -3,6 +3,7 @@ import 'package:catering_app/data/user_role.dart';
 import 'package:catering_app/interfaces/main_menu_logic.dart';
 import 'package:catering_app/interfaces/main_menu_ui.dart';
 import 'package:catering_app/controller/company_offers_logic/show_offers_list_logic.dart';
+import 'package:catering_app/model/company_api_proxy.dart';
 import 'package:catering_app/view/catering_registration_view.dart';
 import 'package:catering_app/view/main_menu.dart';
 import 'package:flutter/material.dart';
@@ -64,15 +65,20 @@ class MainController extends ChangeNotifier {
     mainMenuLogic.showMainMenu();
   }
 
-  void onShowListOfCompanyOffersClicked(BuildContext context) {
-    final CateringCompanyShowOffersListLogic companyOffersLogic =
-        CateringCompanyShowOffersListLogic(context);
-    companyOffersLogic.onShowListOfOffersClicked();
-  }
+void onShowListOfCompanyOffersClicked(BuildContext context) async {
+  final companyAPI = CateringCompanyAPIProxy();
 
-  void onShowListOfClientOffersClicked(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const ClientOffersListView()),
+  final loginResponse = await companyAPI.login("admin_user", "1234");
+  if (!loginResponse.success) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Logowanie nie powiodło się: ${loginResponse.error}"),
+        backgroundColor: Colors.red,
+      ),
     );
+    return;
   }
+  final companyOffersLogic = CateringCompanyShowOffersListLogic(context);
+  companyOffersLogic.onShowListOfOffersClicked();
+}
 }
