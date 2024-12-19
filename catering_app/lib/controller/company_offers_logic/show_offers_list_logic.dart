@@ -19,69 +19,23 @@ class CateringCompanyShowOffersListLogic
 
   @override
   void onShowListOfOffersClicked() async {
-    // final result = await companyAPI
-    //     .getListOfMealsByCompanyId('12fcc746-b380-4f0b-a34c-6b110a615a94');
-    // if (result.success) {
-    //   ui.showListOfOffers(result.data);
-    // } else {
-    //   ui.showErrorMessage(result.error);
-    // }
-
-    List<Meal> dummyMeals = [
-      Meal(
-        id: "1",
-        name: "Spaghetti Carbonara",
-        description: "makaron z sosem",
-        price: 19.99,
-        photoUrls: "",
-      ),
-      Meal(
-        id: "2",
-        name: "Grilled Chicken Salad",
-        description: "Grilled Chicken Salad",
-        price: 15.49,
-        photoUrls: "",
-      ),
-      Meal(
-        id: "3",
-        name: "Beef Steak with Vegetables",
-        description: "Beef Steak with Vegetables",
-        price: 25.99,
-        photoUrls: "",
-      ),
-      Meal(
-        id: "4",
-        name: "Margherita Pizza",
-        description: "Margherita Pizza",
-        price: 12.99,
-        photoUrls: "",
-      ),
-      Meal(
-        id: "5",
-        name: "Sushi Platter",
-        description: "Sushi Platter",
-        price: 29.99,
-        photoUrls: "",
-      ),
-    ];
-    ui.showListOfOffers(dummyMeals);
+    final result = await companyAPI
+        .getListOfMealsByCompanyId('12fcc746-b380-4f0b-a34c-6b110a615a94');
+    if (result.success) {
+      ui.showListOfOffers(result.data);
+    } else {
+      ui.showErrorMessage(result.error);
+    }
   }
 
   @override
   void onShowUpdateMealFormClicked(String id) async {
-    // final result = await companyAPI.getMeal(id);
-    // if (result.success) {
-    //   ui.showEditMealForm(result.data);
-    // } else {
-    //   ui.showErrorMessage(result.error);
-    // }
-
     Meal meal = Meal(
-      id: "5",
+      id: id,
       name: "Sushi Platter",
       description: "Sushi Platter",
       price: 29.99,
-      photoUrls: "",
+      photoUrls: "https://www.feastingathome.com/wp-content/uploads/2024/01/ahi-poke-5.jpg",
     );
     ui.showEditMealForm(meal);
   }
