@@ -54,7 +54,7 @@ class ClientAPIProxy implements IClientAPI {
           "clientLogin": user.username,
           "deliveryAddress": order.deliveryAddress,
           "deliveryMethod": order.deliveryMethod,
-          "mealIds": [order.mealIds],
+          "mealIds": order.mealIds,
           "deliveryTime": order.deliveryTime,
         })));
     if (result["success"]) {
