@@ -22,4 +22,8 @@ class CartData implements IClientCartData {
   }
 
   List<Meal> get meals => _meals;
+
+  List<String> getMealIds() {
+    return _meals.map((meal) => meal.id).toList();
+  }
 }

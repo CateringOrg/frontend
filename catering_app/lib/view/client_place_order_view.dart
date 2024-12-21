@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import '../assets/colors.dart';
 
 class ClientOrderFormView extends StatefulWidget {
-  const ClientOrderFormView({super.key});
+  final List<String>? mealIds;
+
+  const ClientOrderFormView({super.key, this.mealIds});
 
   @override
   State<ClientOrderFormView> createState() => _ClientOrderFormViewState();
@@ -13,6 +15,7 @@ class ClientOrderFormView extends StatefulWidget {
 
 class _ClientOrderFormViewState extends State<ClientOrderFormView> {
   late final AddOrderDTO formData;
+  String? orderId;
 
   final emailController = TextEditingController();
   final firstCodeController = TextEditingController();
@@ -31,21 +34,17 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
     super.initState();
 
     formData = AddOrderDTO(
-      clientLogin: '',
       deliveryAddress: '',
       deliveryTime: '',
       deliveryMethod: "Delivery",
-      mealIds: [], // brakuje funkcji getCart()
+      mealIds: widget.mealIds!,
     );
 
-    emailController.addListener(() {
-      formData.clientLogin = emailController.text;
-    });
     addressController.addListener(() {
       formData.deliveryAddress = getAddress();
     });
     dateController.addListener(() {
-      formData.deliveryTime = "${dateController.text}T10:00:00";
+      formData.deliveryTime = dateController.text + "T10:00:00";
     });
   }
 
@@ -56,7 +55,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
     secondCodeController.dispose();
     thirdCodeController.dispose();
     fourthCodeController.dispose();
-    fifthCodeController.dispose();
+    firstCodeController.dispose();
     cityController.dispose();
     addressController.dispose();
     infoController.dispose();
@@ -65,17 +64,18 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
   }
 
   String getAddress() {
-    String address = firstCodeController.text +
-        secondCodeController.text +
-        '-' +
-        thirdCodeController.text +
-        fourthCodeController.text +
-        fifthCodeController.text +
-        " " +
-        cityController.text +
-        " " +
-        addressController.text;
-    return address;
+    if (firstCodeController.text.isNotEmpty &&
+        secondCodeController.text.isNotEmpty &&
+        thirdCodeController.text.isNotEmpty &&
+        fourthCodeController.text.isNotEmpty &&
+        fifthCodeController.text.isNotEmpty &&
+        cityController.text.isNotEmpty &&
+        addressController.text.isNotEmpty) {
+      String address =
+          "${firstCodeController.text}${secondCodeController.text}-${thirdCodeController.text}${fourthCodeController.text}${fifthCodeController.text} ${cityController.text} ${addressController.text}";
+      return address;
+    }
+    return "";
   }
 
   void validateAndSave(BuildContext context) {
@@ -83,26 +83,34 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
     setState(() {
       generalError = null;
 
-      final errors = <String>[];
+      // final errors = <String>[];
 
-      if (formData.clientLogin.isEmpty) {
-        errors.add("Email nie może być pusty.");
-      }
-      if (formData.deliveryTime.isEmpty) {
-        errors.add("Data nie może być pusta.");
-      }
-      if (formData.deliveryAddress.isEmpty) {
-        errors.add("Adres nie może byc pusty.");
-      }
+      // if (formData.clientLogin.isEmpty) {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     const SnackBar(
+      //       content: Text(
+      //         "Zamówienie zostało pomyślnie złożone.",
+      //         style: TextStyle(color: Colors.white),
+      //       ),
+      //       backgroundColor: Colors.red,
+      //       behavior: SnackBarBehavior.floating,
+      //     ),
+      //   );
+      //   errors.add("Email nie może być pusty.");
+      // }
+      // if (formData.deliveryTime.isEmpty) {
+      //   errors.add("Data nie może być pusta.");
+      // }
+      // if (formData.deliveryAddress.isEmpty) {
+      //   errors.add("Adres nie może byc pusty.");
+      // }
 
-      //TODO dokończyć onsavedataclicked(ma się dodać przy płatności)
       // if (errors.isNotEmpty) {
       //   generalError = errors.join("\n");
       //   return;
       // }
 
       logic.onSaveDataClicked(formData);
-      // logic.showClientPaymentView(context);
     });
   }
 
@@ -119,8 +127,8 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const Center(
-                child: Text(
+              Center(
+                child: const Text(
                   "Dane adresowe",
                   style: TextStyle(
                     color: Colors.purple,
@@ -130,7 +138,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                 ),
               ),
               const Divider(color: Colors.grey, thickness: 1.0),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [],
               ),
@@ -153,7 +161,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                       ],
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 20,
                   ),
                   Flexible(
@@ -163,7 +171,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                       children: <Widget>[
                         const Text("Data dowozu"),
                         TextField(
-                          controller: addressController,
+                          controller: dateController,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: '',
@@ -216,7 +224,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                               ),
                             ),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 25,
                           ),
                           SizedBox(

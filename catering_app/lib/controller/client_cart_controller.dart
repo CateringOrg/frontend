@@ -34,10 +34,9 @@ class ClientCartLogic implements IClientCartLogic {
   void showClientOffersUI(BuildContext context) {
     ui.onShowClientOrderingUIClicked();
   }
-  
-@override
-void showClientOrderFormView(BuildContext context) {
-  ui.onOrderButtonClicked();
-}
 
+  @override
+  void showClientOrderFormView(List<String>? meaIds) {
+    ui.onOrderButtonClicked(meaIds);
+  }
 }

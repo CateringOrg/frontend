@@ -1,4 +1,3 @@
-import 'package:catering_app/data/meal_data.dart';
 import 'package:catering_app/model/company_api_proxy.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_app/interfaces/company_offers.dart';

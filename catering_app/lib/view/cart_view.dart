@@ -164,7 +164,8 @@ class CartView extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      logic.showClientOrderFormView(context); // todo
+                      return logic
+                          .showClientOrderFormView(logic.cartData.getMealIds());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.fontEmphasis,

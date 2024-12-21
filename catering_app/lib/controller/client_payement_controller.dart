@@ -1,7 +1,5 @@
-import 'package:catering_app/data/add_order_data.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_app/view/main_view.dart';
-import 'package:catering_app/data/login_data.dart';
 import 'package:catering_app/model/catering_model.dart';
 import 'package:catering_app/interfaces/client_payement.dart';
 import 'package:catering_app/data/payement_data.dart';

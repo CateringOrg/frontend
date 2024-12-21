@@ -3,22 +3,21 @@ import 'package:flutter/cupertino.dart';
 
 import '../model/client_api_proxy.dart';
 
-abstract class IClientOrderingUI{
+abstract class IClientOrderingUI {
   void navigateBack();
   void showSuccessMessage();
   void showErrorMessage(String? message);
-  void onClientPaymentClicked();
+  void showClientPaymentView(String? orderId);
 }
 
 abstract class IClientOrderingLogic {
   void onOrderFormButtonClicked(BuildContext context);
 }
 
-abstract class IClientAddOrderLogic{
+abstract class IClientAddOrderLogic {
   void onSaveDataClicked(AddOrderDTO data);
-  void showClientPaymentView();
 }
 
-abstract class IClientAPI{
-  Future<ApiResponse<void>> addOrder(AddOrderDTO order);
+abstract class IClientAPI {
+  Future<ApiResponse<String>> addOrder(AddOrderDTO order);
 }

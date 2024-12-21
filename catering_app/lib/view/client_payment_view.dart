@@ -1,13 +1,13 @@
 import 'package:catering_app/controller/client_payement_controller.dart';
 import 'package:catering_app/data/payement_data.dart';
 import 'package:catering_app/interfaces/client_payement.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../assets/colors.dart';
 
 class ClientPaymentView extends StatefulWidget {
-  const ClientPaymentView({super.key});
+  final String? orderId;
+  const ClientPaymentView({super.key, this.orderId});
 
   @override
   State<ClientPaymentView> createState() => _ClientPaymentViewState();
@@ -27,6 +27,7 @@ class _ClientPaymentViewState extends State<ClientPaymentView> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final orderId = widget.orderId;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,

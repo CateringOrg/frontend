@@ -1,4 +1,3 @@
-import 'package:catering_app/data/user_data.dart';
 import 'package:flutter/material.dart';
 import 'package:catering_app/view/main_view.dart';
 import 'package:catering_app/data/catering_registration_data.dart';

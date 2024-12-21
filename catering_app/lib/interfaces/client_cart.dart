@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 abstract class IClientCartUI {
   void onShowClientOrderingUIClicked();
-  void onOrderButtonClicked();
+  void onOrderButtonClicked(List<String>? mealIds);
   void showOrderSuccessMessage();
   void showOrderErrorMessage(String message);
 }
@@ -13,7 +13,7 @@ abstract class IClientCartLogic {
   double getTotalPrice();
   int getTotalCalories();
   void showClientOffersUI(BuildContext context);
-  void showClientOrderFormView(BuildContext context);
+  void showClientOrderFormView(List<String>? mealIds);
 }
 
 abstract class IClientCartData {

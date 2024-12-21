@@ -12,7 +12,7 @@ import 'package:catering_app/data/user_data.dart';
 import 'package:catering_app/data/payement_data.dart';
 
 class CateringModel {
-  final String baseUrl = "http://localhost:8081";
+  final String baseUrl = "http://localhost:8080";
   String? authToken = '';
   UserRole? role = UserRole.NONE;
   String? username = '';
@@ -60,11 +60,10 @@ class CateringModel {
       );
       if (_responseOK(response)) {
         authToken = jsonDecode(response.body)['token'];
-        Map<String, dynamic> jwt_decoded = parseJwt(authToken!);
-        username = jwt_decoded['sub'];
-        role = userRoleMap[jwt_decoded['role']];
+        Map<String, dynamic> jwtDecoded = parseJwt(authToken!);
+        username = jwtDecoded['sub'];
+        role = userRoleMap[jwtDecoded['role']];
 
-        // Zapisanie do cookies
         saveToCookies('authToken', authToken!);
         saveToCookies('username', username!);
         saveToCookies('role', userRoleToStringMap[role]!);
@@ -228,11 +227,12 @@ class CateringModel {
   Future<Map<String, dynamic>> addOrder(AddOrderDTO addOrderData) async {
     try {
       final url = Uri.parse("$baseUrl/orders/create");
+      UserDTO user = getLoggedUser();
       final response = await http.post(
         url,
         headers: _headersForAll(contentType: true),
         body: jsonEncode({
-          "clientLogin": addOrderData.clientLogin,
+          "clientLogin": user.username,
           "deliveryAddress": addOrderData.deliveryAddress,
           "deliveryMethod": addOrderData.deliveryMethod,
           "mealIds": [addOrderData.mealIds],

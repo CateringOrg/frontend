@@ -76,10 +76,10 @@ class ClientCartUI implements IClientCartUI {
   }
 
   @override
-  void onOrderButtonClicked() {
+  void onOrderButtonClicked(List<String>? mealIds) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const ClientOrderFormView()),
+      MaterialPageRoute(builder: (_) => ClientOrderFormView(mealIds: mealIds)),
     );
   }
 

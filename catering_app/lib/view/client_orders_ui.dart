@@ -1,7 +1,5 @@
-import 'package:catering_app/controller/add_order_logic.dart';
 import 'package:catering_app/interfaces/client_orders.dart';
 import 'package:catering_app/view/client_payment_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ClientOrdersUI implements IClientOrderingUI {
@@ -47,8 +45,8 @@ class ClientOrdersUI implements IClientOrderingUI {
   }
 
   @override
-  void onClientPaymentClicked() {
+  void showClientPaymentView(String? orderId) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const ClientPaymentView()));
+        MaterialPageRoute(builder: (_) => ClientPaymentView(orderId: orderId)));
   }
 }
