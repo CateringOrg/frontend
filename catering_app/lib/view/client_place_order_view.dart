@@ -36,7 +36,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
     formData = AddOrderDTO(
       deliveryAddress: '',
       deliveryTime: '',
-      deliveryMethod: "Delivery",
+      deliveryMethod: "delivery",
       mealIds: widget.mealIds!,
     );
 

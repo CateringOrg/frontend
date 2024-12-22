@@ -51,7 +51,6 @@ class ClientAPIProxy implements IClientAPI {
     final result = await _makeApiCall(() => http.post(url,
         headers: cateringModel.getHeaders(contentType: true),
         body: jsonEncode({
-          "clientLogin": user.username,
           "deliveryAddress": order.deliveryAddress,
           "deliveryMethod": order.deliveryMethod,
           "mealIds": order.mealIds,

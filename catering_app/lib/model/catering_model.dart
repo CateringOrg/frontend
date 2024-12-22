@@ -232,7 +232,6 @@ class CateringModel {
         url,
         headers: _headersForAll(contentType: true),
         body: jsonEncode({
-          "clientLogin": user.username,
           "deliveryAddress": addOrderData.deliveryAddress,
           "deliveryMethod": addOrderData.deliveryMethod,
           "mealIds": [addOrderData.mealIds],
@@ -264,8 +263,6 @@ class CateringModel {
         headers: _headersForAll(contentType: true),
         body: jsonEncode({
           "orderId": payementData.orderId,
-          "login": payementData.login,
-          "password": payementData.password,
           "paymentMethod": payementData.paymentMethod,
         }),
       );
