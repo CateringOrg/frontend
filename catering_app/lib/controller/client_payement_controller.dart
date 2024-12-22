@@ -18,6 +18,12 @@ class ClientPayementLogic extends IClientPayementLogic {
                   user: model.getLoggedUser(),
                 )),
       );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Pomyślnie opłacono zamówienie!"),
+          backgroundColor: Colors.green,
+        ),
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

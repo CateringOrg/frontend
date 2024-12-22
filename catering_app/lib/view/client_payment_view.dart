@@ -14,20 +14,21 @@ class ClientPaymentView extends StatefulWidget {
 }
 
 class _ClientPaymentViewState extends State<ClientPaymentView> {
-  late final IClientPayementLogic controller;
-  PayementDTO payementDTO = PayementDTO();
+  late final PayementDTO data;
+  final controller = ClientPayementLogic();
 
   @override
   void initState() {
     super.initState();
-
-    controller = ClientPayementLogic();
+    data = PayementDTO(
+      paymentMethod: 'mock',
+      orderId: widget.orderId!,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final orderId = widget.orderId;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -49,47 +50,18 @@ class _ClientPaymentViewState extends State<ClientPaymentView> {
                 ),
               ),
               const Divider(color: Colors.grey, thickness: 1.0),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Adres"),
-                        Text(
-                          "Tu będzie adres",
-                          style: TextStyle(
-                            color: Colors.purple,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
-                    ),
+              Center(
+                child: Text(
+                  "Czy chcesz zapłacić za to zamówienie?",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Flexible(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Podsumowanie"),
-                        Text(
-                          "Tu będzie koszt",
-                          style: TextStyle(
-                            color: Colors.purple,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 200, 0, 50),
+                padding: const EdgeInsets.fromLTRB(0, 60, 0, 50),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -97,7 +69,7 @@ class _ClientPaymentViewState extends State<ClientPaymentView> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () =>
-                            controller.onPayClicked(context, payementDTO),
+                            controller.onPayClicked(context, data),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColor.fontEmphasis,
                           padding: const EdgeInsets.symmetric(vertical: 20.0),

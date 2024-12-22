@@ -83,32 +83,32 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
     setState(() {
       generalError = null;
 
-      // final errors = <String>[];
+      final errors = <String>[];
 
-      // if (formData.clientLogin.isEmpty) {
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     const SnackBar(
-      //       content: Text(
-      //         "Zamówienie zostało pomyślnie złożone.",
-      //         style: TextStyle(color: Colors.white),
-      //       ),
-      //       backgroundColor: Colors.red,
-      //       behavior: SnackBarBehavior.floating,
-      //     ),
-      //   );
-      //   errors.add("Email nie może być pusty.");
-      // }
-      // if (formData.deliveryTime.isEmpty) {
-      //   errors.add("Data nie może być pusta.");
-      // }
-      // if (formData.deliveryAddress.isEmpty) {
-      //   errors.add("Adres nie może byc pusty.");
-      // }
+      if (formData.mealIds.isEmpty!) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              "Zamówienie zostało pomyślnie złożone.",
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        errors.add("Email nie może być pusty.");
+      }
+      if (formData.deliveryTime.isEmpty) {
+        errors.add("Data nie może być pusta.");
+      }
+      if (formData.deliveryAddress.isEmpty) {
+        errors.add("Adres nie może byc pusty.");
+      }
 
-      // if (errors.isNotEmpty) {
-      //   generalError = errors.join("\n");
-      //   return;
-      // }
+      if (errors.isNotEmpty) {
+        generalError = errors.join("\n");
+        return;
+      }
 
       logic.onSaveDataClicked(formData);
     });
