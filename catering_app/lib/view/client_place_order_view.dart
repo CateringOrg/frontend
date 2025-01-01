@@ -174,7 +174,7 @@ class _ClientOrderFormViewState extends State<ClientOrderFormView> {
                           controller: dateController,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText: '',
+                            hintText: 'YYYY-MM-DD',
                           ),
                         ),
                       ],
