@@ -15,7 +15,7 @@ class CateringCompanyEditMealLogic implements ICateringCompanyEditMealLogic {
   void onSaveDataClicked(String mealId, AddMealDTO data) async {
     final result = await companyAPI.updateMeal(mealId, data);
     if (result.success) {
-      ui.showSuccessMessage();
+      ui.showSuccessMessage("Posiłek został zaktualizowany pomyślnie.");
       ui.navigateBack();
     } else {
       ui.showErrorMessage(result.error);

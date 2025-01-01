@@ -54,6 +54,7 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
           url,
           headers: cateringModel.getHeaders(),
           body: jsonEncode({
+            "name": meal.name,
             "description": meal.description,
             "price": double.tryParse(meal.price),
             "photoUrls": [meal.photoUrl],
@@ -68,9 +69,9 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
   }
 
   @override
-  Future<ApiResponse<List<Meal>>> getListOfMealsByCompanyId(
-      String companyId) async {
-    final url = Uri.parse("$baseUrl/offers/$companyId/meals");
+  Future<ApiResponse<List<Meal>>> getListOfMealsByCompany() async {
+    const cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
+    final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals");
     final result = await _makeApiCall(() => http.get(
           url,
           headers: cateringModel.getHeaders(),
@@ -97,8 +98,7 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
 
   @override
   Future<ApiResponse<Meal>> getMeal(String id) async {
-    const cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
-    final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals/$id");
+    final url = Uri.parse("$baseUrl/offers/meals/$id");
     final result = await _makeApiCall(() => http.get(
           url,
           headers: cateringModel.getHeaders(),
@@ -128,6 +128,7 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
           url,
           headers: cateringModel.getHeaders(),
           body: jsonEncode({
+            "name": meal.name,
             "description": meal.description,
             "price": double.tryParse(meal.price),
             "photoUrls": [meal.photoUrl],

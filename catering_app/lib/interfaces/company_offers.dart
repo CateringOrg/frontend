@@ -22,13 +22,13 @@ abstract class ICateringCompanyOffersUI {
   void showEditMealForm(Meal? meal);
   void showListOfOffers(List<Meal>? meals);
   void navigateBack();
-  void showSuccessMessage();
+  void showSuccessMessage(String? message);
   void showErrorMessage(String? message);
 }
 
 abstract class ICateringCompanyAPI {
   Future<ApiResponse<void>> addMeal(AddMealDTO meal);
-  Future<ApiResponse<List<Meal>>> getListOfMealsByCompanyId(String companyId);
+  Future<ApiResponse<List<Meal>>> getListOfMealsByCompany();
   Future<ApiResponse<Meal>> getMeal(String id);
   Future<ApiResponse<void>> updateMeal(String mealId, AddMealDTO meal);
 }

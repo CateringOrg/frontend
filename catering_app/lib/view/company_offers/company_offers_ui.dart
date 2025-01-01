@@ -42,11 +42,12 @@ class CateringCompanyOffersUI implements ICateringCompanyOffersUI {
   }
 
   @override
-  void showSuccessMessage() {
+  void showSuccessMessage(String? message) {
+    final displayMessage = message ?? "Posiłek został pomyślnie dodany.";
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
+      SnackBar(
         content: Text(
-          "Posiłek został pomyślnie dodany.",
+          displayMessage,
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.green,
@@ -57,14 +58,13 @@ class CateringCompanyOffersUI implements ICateringCompanyOffersUI {
 
   @override
   void showErrorMessage(String? message) {
-    if (message == null || message.isEmpty) {
-      message = "Coś poszło nie tak. Spróbuj ponownie później";
-    }
+    final displayMessage =
+        message ?? "Coś poszło nie tak. Spróbuj ponownie później";
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          message,
+          displayMessage,
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.red,
