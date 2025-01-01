@@ -16,7 +16,12 @@ class CateringCompanyEditMealLogic implements ICateringCompanyEditMealLogic {
     final result = await companyAPI.updateMeal(mealId, data);
     if (result.success) {
       ui.showSuccessMessage("Posiłek został zaktualizowany pomyślnie.");
-      ui.navigateBack();
+      final mealsResult = await companyAPI.getListOfMealsByCompany();
+      if (!mealsResult.success) {
+        ui.showErrorMessage(result.error);
+        return;
+      }
+      ui.showListOfOffers(mealsResult.data);
     } else {
       ui.showErrorMessage(result.error);
     }

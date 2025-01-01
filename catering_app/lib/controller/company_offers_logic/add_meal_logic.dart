@@ -17,7 +17,12 @@ class CateringCompanyAddMealLogic implements ICateringCompanyAddMealLogic {
 
     if (result.success) {
       ui.showSuccessMessage("Posiłek został dodany pomyślnie.");
-      ui.navigateBack();
+      final mealsResult = await companyAPI.getListOfMealsByCompany();
+      if (!mealsResult.success) {
+        ui.showErrorMessage(result.error);
+        return;
+      }
+      ui.showListOfOffers(mealsResult.data);
     } else {
       ui.showErrorMessage(result.error);
     }

@@ -46,20 +46,52 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
     }
   }
 
+  Future<Map<String, dynamic>> _makeApiCallMultipart(
+      Future<http.StreamedResponse> Function() httpRequest) async {
+    try {
+      final streamedResponse = await httpRequest();
+      final response = await http.Response.fromStream(streamedResponse);
+
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return {
+          "success": true,
+          "responseBody": response.body,
+        };
+      } else {
+        return {
+          "success": false,
+          "message": "Błąd API: ${response.body}",
+          "responseBody": response.body,
+        };
+      }
+    } catch (e) {
+      print("Error: $e");
+      return {
+        "success": false,
+        "message": "Nie udało się połączyć z serwerem",
+        "responseBody": null,
+      };
+    }
+  }
+
   @override
   Future<ApiResponse<void>> addMeal(AddMealDTO meal) async {
     const cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
     final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals");
-    final result = await _makeApiCall(() => http.post(
-          url,
-          headers: cateringModel.getHeaders(),
-          body: jsonEncode({
-            "name": meal.name,
-            "description": meal.description,
-            "price": double.tryParse(meal.price),
-            "photoUrls": [meal.photoUrl],
-          }),
-        ));
+
+    final result = await _makeApiCallMultipart(() async {
+      final request = http.MultipartRequest('POST', url);
+      request.headers.addAll(cateringModel.getHeaders());
+
+      request.fields['name'] = meal.name;
+      request.fields['description'] = meal.description;
+      request.fields['price'] = meal.price;
+
+      return request.send();
+    });
 
     if (result["success"]) {
       return ApiResponse(success: true);
@@ -124,16 +156,17 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
   Future<ApiResponse<void>> updateMeal(String mealId, AddMealDTO meal) async {
     const cateringCompanyId = '12fcc746-b380-4f0b-a34c-6b110a615a94';
     final url = Uri.parse("$baseUrl/offers/$cateringCompanyId/meals/$mealId");
-    final result = await _makeApiCall(() => http.put(
-          url,
-          headers: cateringModel.getHeaders(),
-          body: jsonEncode({
-            "name": meal.name,
-            "description": meal.description,
-            "price": double.tryParse(meal.price),
-            "photoUrls": [meal.photoUrl],
-          }),
-        ));
+
+    final result = await _makeApiCallMultipart(() async {
+      final request = http.MultipartRequest('PUT', url);
+      request.headers.addAll(cateringModel.getHeaders());
+
+      request.fields['name'] = meal.name;
+      request.fields['description'] = meal.description;
+      request.fields['price'] = meal.price;
+
+      return request.send();
+    });
 
     if (result["success"]) {
       return ApiResponse(success: true);
