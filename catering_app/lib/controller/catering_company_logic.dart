@@ -1,4 +1,3 @@
-import 'package:catering_app/data/catering_company_data.dart';
 import 'package:catering_app/model/catering_company_model.dart';
 import 'package:catering_app/model/company_api_proxy.dart';
 

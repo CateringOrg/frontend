@@ -53,31 +53,45 @@ class OrderDTO {
 }
 
 class MealDTO {
+  final String id; // UUID as a String
   final String name;
-  final int quantity;
+  final String description;
   final double price;
+  final String cateringCompanyName;
+  final List<String> photoUrls;
 
   MealDTO({
+    required this.id,
     required this.name,
-    required this.quantity,
+    required this.description,
     required this.price,
+    required this.cateringCompanyName,
+    required this.photoUrls,
   });
 
   // Factory constructor to create a MealDTO from JSON
   factory MealDTO.fromJson(Map<String, dynamic> json) {
     return MealDTO(
+      id: json['id'] as String,
       name: json['name'] as String,
-      quantity: json['quantity'] as int,
+      description: json['description'] as String,
       price: (json['price'] as num).toDouble(),
+      cateringCompanyName: json['cateringCompanyName'] as String,
+      photoUrls: (json['photoUrls'] as List<dynamic>)
+          .map((url) => url as String)
+          .toList(),
     );
   }
 
   // Convert a MealDTO to JSON
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
-      'quantity': quantity,
+      'description': description,
       'price': price,
+      'cateringCompanyName': cateringCompanyName,
+      'photoUrls': photoUrls,
     };
   }
 }

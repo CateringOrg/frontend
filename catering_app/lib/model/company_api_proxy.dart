@@ -195,31 +195,23 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
     }
   }
 
-  Future<List<OrderDTO>> getOrders() async {
-    // Tutaj implementacja logiki pobierania zamówień z backendu
-    // Przykładowa symulacja pobrania danych:
-    await Future.delayed(const Duration(seconds: 2));
-    return [
-      OrderDTO(
-        orderId: '1',
-        clientLogin: 'jan.kowalski',
-        deliveryAddress: 'ul. Kwiatowa 12, Warszawa',
-        deliveryMethod: 'Dowóz',
-        status: 'W realizacji',
-        deliveryTime: DateTime.now().add(const Duration(hours: 2)),
-        orderCreationTime: DateTime.now(),
-        meals: [],
-      ),
-      OrderDTO(
-        orderId: '2',
-        clientLogin: 'anna.nowak',
-        deliveryAddress: 'ul. Różana 15, Kraków',
-        deliveryMethod: 'Odbiór własny',
-        status: 'Dostarczono',
-        deliveryTime: DateTime.now().subtract(const Duration(hours: 3)),
-        orderCreationTime: DateTime.now().subtract(const Duration(days: 1)),
-        meals: [],
-      ),
-    ];
+  @override
+  Future<List<OrderDTO>> getOrdersFromApi() async {
+    final url = Uri.parse("$baseUrl/orders");
+
+    final result = await _makeApiCall(() => http.get(
+          url,
+          headers: cateringModel.getHeaders(),
+        ));
+
+    if (result["success"]) {
+      List<dynamic> orderJsonList = jsonDecode(result["responseBody"]);
+      List<OrderDTO> orders = orderJsonList.map((json) {
+        return OrderDTO.fromJson(json as Map<String, dynamic>);
+      }).toList();
+      return orders;
+    } else {
+      return List.empty();
+    }
   }
 }

@@ -17,7 +17,7 @@ class _OrderListViewState extends State<OrderListView> {
   void initState() {
     super.initState();
     apiProxy = CateringCompanyAPIProxy();
-    ordersFuture = apiProxy.getOrders(); // Pobranie zamówień z API
+    ordersFuture = apiProxy.getOrdersFromApi(); // Pobranie zamówień z API
   }
 
   @override
