@@ -4,6 +4,8 @@ import 'package:catering_app/data/add_meal_data.dart';
 import 'package:catering_app/data/meal_data.dart';
 import 'package:catering_app/interfaces/company_offers.dart';
 import 'package:catering_app/model/catering_model.dart';
+import 'package:catering_app/model/catering_company_model.dart';
+import 'package:catering_app/data/order_data.dart';
 import 'package:http/http.dart' as http;
 
 class ApiResponse<T> {
@@ -173,5 +175,51 @@ class CateringCompanyAPIProxy implements ICateringCompanyAPI {
     } else {
       return ApiResponse(success: false, error: result["message"]);
     }
+  }
+
+  Future<ApiResponse<List<CateringCompanyDTO>>> getCateringCompanies() async {
+    final url = Uri.parse("$baseUrl/catering-companies");
+    final result = await _makeApiCall(() => http.get(
+          url,
+          headers: cateringModel.getHeaders(),
+        ));
+
+    if (result["success"]) {
+      List<dynamic> companyJsonList = jsonDecode(result["responseBody"]);
+      List<CateringCompanyDTO> companies = companyJsonList
+          .map((json) => CateringCompanyDTO.fromJson(json))
+          .toList();
+      return ApiResponse(success: true, data: companies);
+    } else {
+      return ApiResponse(success: false, error: result["message"]);
+    }
+  }
+
+  Future<List<OrderDTO>> getOrders() async {
+    // Tutaj implementacja logiki pobierania zamówień z backendu
+    // Przykładowa symulacja pobrania danych:
+    await Future.delayed(const Duration(seconds: 2));
+    return [
+      OrderDTO(
+        orderId: '1',
+        clientLogin: 'jan.kowalski',
+        deliveryAddress: 'ul. Kwiatowa 12, Warszawa',
+        deliveryMethod: 'Dowóz',
+        status: 'W realizacji',
+        deliveryTime: DateTime.now().add(const Duration(hours: 2)),
+        orderCreationTime: DateTime.now(),
+        meals: [],
+      ),
+      OrderDTO(
+        orderId: '2',
+        clientLogin: 'anna.nowak',
+        deliveryAddress: 'ul. Różana 15, Kraków',
+        deliveryMethod: 'Odbiór własny',
+        status: 'Dostarczono',
+        deliveryTime: DateTime.now().subtract(const Duration(hours: 3)),
+        orderCreationTime: DateTime.now().subtract(const Duration(days: 1)),
+        meals: [],
+      ),
+    ];
   }
 }
